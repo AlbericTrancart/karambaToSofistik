@@ -5,5 +5,8 @@ using System.Text;
 
 namespace GhToSofistik.Classes {
     class CrossSection {
+        public string sofistring() {
+            return "";
+        }
     }
 }

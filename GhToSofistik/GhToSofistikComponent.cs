@@ -21,6 +21,7 @@ namespace GhToSofistik {
         // Registers all the input parameters for this component.
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager) {
             pManager.AddParameter(new Param_Model(), "Model", "Model", "Model to convert", GH_ParamAccess.item);
+            pManager.AddTextParameter("Path", "Path", "Save the .dat file to this path", GH_ParamAccess.item, @"");
         }
 
         // Registers all the output parameters for this component.
@@ -31,10 +32,60 @@ namespace GhToSofistik {
 
         // This is the method that actually does the work.
         protected override void SolveInstance(IGH_DataAccess DA) {
-            //Load the data from Karamba
+            ///* Some variables *\\\
+            string output = "";
+            string status = "Starting component...";
+            List<Material> materials = new List<Material>();
+            List<CrossSection> crossSections = new List<CrossSection>();
+            List<Node> nodes = new List<Node>();
+            List<Beam> beams = new List<Beam>();
+            List<Load> loads = new List<Load>();
 
-            //Write the data into a .dat file format
-            Parser parser = new Parser();
+            try {
+                ///* Load the data from Karamba *\\\
+
+                // Retrieve and clone the input model
+                GH_Model in_gh_model = null;
+                if (!DA.GetData<GH_Model>(0, ref in_gh_model)) return;
+                Model model = in_gh_model.Value;
+                model = (Karamba.Models.Model) model.Clone();
+                
+                string path = null;
+                if (!DA.GetData<string>(1, ref path)) { path = ""; }
+                if(path == "")
+                    status += "\nNo file path specified. Will not save data to a .dat file.";
+
+
+
+                ///* Retrieve and store the data *\\\
+                foreach(Karamba.Materials.FemMaterial material in model.materials) {
+                    materials.Add(new Material(material));
+                }
+
+                foreach (Karamba.CrossSections.CroSec crosec in model.crosecs) {
+                    crossSections.Add(new CrossSection(crosec));
+                }
+
+                foreach (Karamba.Nodes.Node node in model.nodes) {
+                    nodes.Add(new Node(node));
+                }
+
+                foreach (Karamba.Utilities.BeamSet beam in model.beamsets) {
+                    beams.Add(new Beam(beam));
+                }
+                
+
+                ///* Write the data into a .dat file format *\\\
+                Parser parser = new Parser(materials, crossSections, nodes, beams, loads);
+                output = parser.file;
+            }
+            catch (Exception e) {
+                status += "\nERROR!\n" + e.Message + "\n" + e.StackTrace + "\n" + e.Source;
+            }
+
+            ///* Return data *\\\
+            DA.SetData(0, output);
+            DA.SetData(1, status);
         }
 
         // Icon
