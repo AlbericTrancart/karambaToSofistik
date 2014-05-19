@@ -27,7 +27,7 @@ namespace GhToSofistik.Classes {
             foreach (Node node in nodes) {
                 file += node.sofistring() + "\n";
             }
-
+            file += "\n";
             foreach (Beam beam in beams) {
                 file += beam.sofistring() + "\n";
             }

@@ -79,11 +79,10 @@ namespace GhToSofistik {
                 }
                 status += "Support constraints added to " + model.supports.Count + " nodes.\n";
 
-                foreach (Karamba.Utilities.BeamSet beam in model.beamsets) {
+                foreach (Karamba.Elements.ModelElement beam in model.elems) {
                     Beam curBeam = new Beam(beam);
-                    string id_start = curBeam.ids[0];
-                    string id_end = curBeam.ids[1];
-                    status += id_start + "|" + id_end + "\n";
+                    curBeam.start = nodes[curBeam.ids[0]];
+                    curBeam.end = nodes[curBeam.ids[1]];
                     beams.Add(curBeam);
                 }
                 status += beams.Count + " beams loaded...\n";
@@ -100,7 +99,7 @@ namespace GhToSofistik {
                 }
             }
             catch (Exception e) {
-                status += "\nERROR!\n" + e.Message + "\n" + e.StackTrace + "\n";
+                status += "\nERROR!\n" + e.ToString() + "\n";
             }
 
             ///* Return data *\\\

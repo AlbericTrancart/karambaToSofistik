@@ -8,28 +8,27 @@ namespace GhToSofistik.Classes {
     class Beam {
         public int id;
         public string GHid;
-        public List<string> ids; // Elements to apply to
+        public List<int> ids; // Elements to apply to
         public Node start;
         public Node end;
         public CrossSection sec;
         public Color color;
 
-        public Beam(Karamba.Utilities.BeamSet beam) {
+        public Beam(Karamba.Elements.ModelElement beam) {
             id = IdManager.createId("beam");
             GHid = "";
-            ids = new List<string>();
-
+            ids = new List<int>();
             hydrate(beam);
         }
 
-        public void hydrate(Karamba.Utilities.BeamSet beam) {
+        public void hydrate(Karamba.Elements.ModelElement beam) {
             GHid = beam.id;
-            ids = beam.elem_ids;
+            ids = beam._node_inds;
             color = beam.color;
         }
 
         public string sofistring() {
-            return "BEAM NO " + id + " NA " + start.id + " NE " + end.id + " NCS " + sec.id;
+            return "BEAM NO " + id + " NA " + start.id + " NE " + end.id + " NCS ";
         }
     }
 }

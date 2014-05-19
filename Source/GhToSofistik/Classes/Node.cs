@@ -11,7 +11,7 @@ namespace GhToSofistik.Classes {
         public List<string> constraints;
 
         public Node(Karamba.Nodes.Node node) {
-            id = IdManager.createId("nod");
+            id = IdManager.createId("node");
             GHid = 0;
             x = y = z = 0;
             constraints = new List<string>();
