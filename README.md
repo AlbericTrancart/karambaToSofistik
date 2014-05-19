@@ -27,7 +27,7 @@ Building it from source
 As an alternative you can build this plugin from the source and tweak the code if you want.
 You will need **Microsoft Visual Studio** with the [Grasshopper Assembly][2] (you can download it directly from Visual Studio in *"Tools > Extensions and updates..."*).
 
-- Either [download the source zip][3] ork fork the repo.
+- Either [download the source zip][3] or fork the repo.
 - Open the *Source/GhToSofistik.sln* project file with Visual Studio.
 - In the project tree **check that all the references are available**. If not, fix them (the required libraries can be found in the *Source/Libraries/ Folder*).
 - Build the solution **(Ctrl+Shift+B)**. You should get the GHA file in the *Source/bin* folder.
