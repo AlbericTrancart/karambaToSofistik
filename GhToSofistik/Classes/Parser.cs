@@ -33,7 +33,7 @@ namespace GhToSofistik.Classes {
             }
 
             // SOFILOAD definitions
-            file += "\n\n+PROG SOFILOAD urs:4\nHEAD carico\n\n";
+            file += "\n\n+PROG SOFILOAD urs:4\n\n";
             foreach (Load load in loads) {
                 file += load.sofistring() + "\n";
             }

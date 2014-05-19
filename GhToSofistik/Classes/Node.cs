@@ -6,11 +6,13 @@ using System.Text;
 namespace GhToSofistik.Classes {
     class Node {
         public int id;
+        public int GHid;
         public double x, y, z;
         public List<string> constraints;
 
         public Node(Karamba.Nodes.Node node) {
             id = IdManager.createId("nod");
+            GHid = 0;
             x = y = z = 0;
             constraints = new List<string>();
 
@@ -21,10 +23,34 @@ namespace GhToSofistik.Classes {
             x = node.pos.X;
             y = node.pos.Y;
             z = node.pos.Z;
+            GHid = node.ind;
         }
 
         public string sofistring() {
-            return "NODE " + id + " X " + x + " Y " + y + " Z " + z + "\n";
+            string sofi = "";
+            sofi += "NODE " + id + " X " + x + " Y " + y + " Z " + z;
+
+            if (constraints.Count != 0) {
+                sofi += " FIX ";
+
+                foreach (string condition in constraints) {
+                    sofi += condition;
+                }
+            }
+
+            return sofi;
+        }
+
+        public void addConstraint(Karamba.Supports.Support support) {
+            string[] cons = new string[] {"PX", "PY", "PZ", "MX", "MY", "MZ"};
+            int i = 0;
+
+            foreach(bool boolean in support._condition) {
+                if(boolean)
+                    constraints.Add(cons[i]);
+                // TODO: prescribed displacement
+                i++;
+            }
         }
     }
 }

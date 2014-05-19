@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
@@ -34,7 +35,7 @@ namespace GhToSofistik {
         protected override void SolveInstance(IGH_DataAccess DA) {
             ///* Some variables *\\\
             string output = "";
-            string status = "Starting component...";
+            string status = "Starting component...\n";
             List<Material> materials = new List<Material>();
             List<CrossSection> crossSections = new List<CrossSection>();
             List<Node> nodes = new List<Node>();
@@ -53,34 +54,53 @@ namespace GhToSofistik {
                 string path = null;
                 if (!DA.GetData<string>(1, ref path)) { path = ""; }
                 if(path == "")
-                    status += "\nNo file path specified. Will not save data to a .dat file.";
+                    status += "No file path specified. Will not save data to a .dat file.\n";
 
 
-
+                
                 ///* Retrieve and store the data *\\\
                 foreach(Karamba.Materials.FemMaterial material in model.materials) {
                     materials.Add(new Material(material));
                 }
+                status += materials.Count + " materials loaded...\n";
 
                 foreach (Karamba.CrossSections.CroSec crosec in model.crosecs) {
                     crossSections.Add(new CrossSection(crosec));
                 }
+                status += crossSections.Count + " cross sections loaded...\n";
 
                 foreach (Karamba.Nodes.Node node in model.nodes) {
                     nodes.Add(new Node(node));
                 }
+                status += nodes.Count + " nodes loaded...\n";
+
+                foreach (Karamba.Supports.Support support in model.supports) {
+                    nodes[support.node_ind].addConstraint(support);
+                }
+                status += "Support constraints added to " + model.supports.Count + " nodes.\n";
 
                 foreach (Karamba.Utilities.BeamSet beam in model.beamsets) {
-                    beams.Add(new Beam(beam));
+                    Beam curBeam = new Beam(beam);
+                    string id_start = curBeam.ids[0];
+                    string id_end = curBeam.ids[1];
+                    status += id_start + "|" + id_end + "\n";
+                    beams.Add(curBeam);
                 }
+                status += beams.Count + " beams loaded...\n";
                 
 
                 ///* Write the data into a .dat file format *\\\
                 Parser parser = new Parser(materials, crossSections, nodes, beams, loads);
                 output = parser.file;
+
+                if (path != "") {
+                    status += "Saving file to " + path + "\n";
+                    System.IO.File.WriteAllText(@path, output);
+                    status += "File saved!\n";
+                }
             }
             catch (Exception e) {
-                status += "\nERROR!\n" + e.Message + "\n" + e.StackTrace + "\n" + e.Source;
+                status += "\nERROR!\n" + e.Message + "\n" + e.StackTrace + "\n";
             }
 
             ///* Return data *\\\

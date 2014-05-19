@@ -6,13 +6,15 @@ using System.Text;
 namespace GhToSofistik.Classes {
     class Material {
         public int id;
-        public List<string> ids;
+        public int GHid;
+        public List<string> ids; // Elements to apply to
         public double E, G, gamma, alphaT, fy;
         string name;
 
         public Material(Karamba.Materials.FemMaterial material) {
             id = IdManager.createId("material");
             ids = new List<string>();
+            GHid = 0;
             E = G = gamma = alphaT = fy = 0;
             name = "";
 
@@ -20,6 +22,7 @@ namespace GhToSofistik.Classes {
         }
 
         public void hydrate(Karamba.Materials.FemMaterial material) {
+            GHid = (int) material.ind;
             ids = material.elemIds;
             E = material.E;
             G = material.G;
@@ -30,7 +33,7 @@ namespace GhToSofistik.Classes {
         }
 
         public string sofistring() {
-            return "CONC \n";
+            return "CONC ";
         }
     }
 }

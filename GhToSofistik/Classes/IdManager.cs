@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+//Creates unique IDs for the Sofistik file
 namespace GhToSofistik.Classes {
     class IdManager {
         static private int materials = 0;
