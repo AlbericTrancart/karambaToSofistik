@@ -15,12 +15,12 @@ namespace GhToSofistik.Classes {
         
         static public int createId(string type) {
             switch(type) {
-                case "material": materials++; return materials; break;
-                case "crosec": crossSections++; return crossSections; break;
-                case "node": nodes++; return nodes; break;
-                case "beam": beams++; return beams; break;
-                case "load": loads++; return loads; break;
-                case "other": other++; return other; break;
+                case "material": materials++; return materials;
+                case "crosec": crossSections++; return crossSections;
+                case "node": nodes++; return nodes;
+                case "beam": beams++; return beams;
+                case "load": loads++; return loads;
+                case "other": other++; return other;
                 default: return 0;
             }
         }

@@ -1,6 +1,7 @@
-﻿//GrassHopper To Sofistik component for GrassHopper
-//Convert a karamba model to a .dat file readable by Sofistik
-//Contact: Albéric Trancart: alberic.trancart@eleves.enpc.fr
+﻿// GrassHopper To Sofistik component for GrassHopper
+// Convert a karamba model to a .dat file readable by Sofistik
+// Git: https://github.com/AlbericTrancart/GhToSofistik
+// Contact: alberic.trancart@eleves.enpc.fr
 
 using System;
 using System.Collections.Generic;
@@ -33,9 +34,11 @@ namespace GhToSofistik {
 
         // This is the method that actually does the work.
         protected override void SolveInstance(IGH_DataAccess DA) {
-            ///* Some variables *\\\
-            string output = "";
-            string status = "Starting component...\n";
+            // Some variables
+            string output = "";                        // The file output
+            string status = "Starting component...\n"; // The debug output
+
+            // Several arrays where the data is stored
             List<Material> materials = new List<Material>();
             List<CrossSection> crossSections = new List<CrossSection>();
             List<Node> nodes = new List<Node>();
@@ -43,22 +46,22 @@ namespace GhToSofistik {
             List<Load> loads = new List<Load>();
 
             try {
-                ///* Load the data from Karamba *\\\
+                // Load the data from Karamba
 
                 // Retrieve and clone the input model
                 GH_Model in_gh_model = null;
                 if (!DA.GetData<GH_Model>(0, ref in_gh_model)) return;
                 Model model = in_gh_model.Value;
-                model = (Karamba.Models.Model) model.Clone();
+                model = (Karamba.Models.Model) model.Clone(); //If the model is not cloned a modification to this variable will imply modification of the input model, thus modifying behavior in other components.
                 
                 string path = null;
                 if (!DA.GetData<string>(1, ref path)) { path = ""; }
-                if(path == "")
+                if (path == "") {
                     status += "No file path specified. Will not save data to a .dat file.\n";
-
+                }
 
                 
-                ///* Retrieve and store the data *\\\
+                // Retrieve and store the data
                 foreach(Karamba.Materials.FemMaterial material in model.materials) {
                     materials.Add(new Material(material));
                 }
@@ -81,6 +84,8 @@ namespace GhToSofistik {
 
                 foreach (Karamba.Elements.ModelElement beam in model.elems) {
                     Beam curBeam = new Beam(beam);
+
+                    // Adding the start and end nodes
                     curBeam.start = nodes[curBeam.ids[0]];
                     curBeam.end = nodes[curBeam.ids[1]];
                     beams.Add(curBeam);
@@ -88,7 +93,7 @@ namespace GhToSofistik {
                 status += beams.Count + " beams loaded...\n";
                 
 
-                ///* Write the data into a .dat file format *\\\
+                // Write the data into a .dat file format
                 Parser parser = new Parser(materials, crossSections, nodes, beams, loads);
                 output = parser.file;
 
@@ -102,7 +107,7 @@ namespace GhToSofistik {
                 status += "\nERROR!\n" + e.ToString() + "\n";
             }
 
-            ///* Return data *\\\
+            // Return data
             DA.SetData(0, output);
             DA.SetData(1, status);
         }
