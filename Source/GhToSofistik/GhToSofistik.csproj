@@ -60,7 +60,6 @@
   <ItemGroup>
     <Compile Include="Classes\Beam.cs" />
     <Compile Include="Classes\CrossSection.cs" />
-    <Compile Include="Classes\IdManager.cs" />
     <Compile Include="Classes\Load.cs" />
     <Compile Include="Classes\Material.cs" />
     <Compile Include="Classes\Node.cs" />

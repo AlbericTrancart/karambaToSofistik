@@ -6,15 +6,13 @@ using System.Text;
 namespace GhToSofistik.Classes {
     class CrossSection {
         public int id;
-        public int GHid;
         public List<string> ids; // Elements to apply to
         public string type;
         public double diameter, thickness, upperWidth, lowerWidth, upperThick, lowerThick, sWallThick, webThick, filletRadius;
         public string name;
 
         public CrossSection(Karamba.CrossSections.CroSec crosec) {
-            id = IdManager.createId("crosec");
-            GHid = 0;
+            id = 0;
             ids = new List<string>();
             diameter = thickness = upperWidth = lowerWidth = upperThick = lowerThick = sWallThick = webThick = filletRadius = 0;
             type = "";
@@ -24,7 +22,7 @@ namespace GhToSofistik.Classes {
         }
 
         public void hydrate(Karamba.CrossSections.CroSec crosec) {
-            GHid = (int) crosec.ind;
+            id = (int) crosec.ind;
             ids = crosec.elemIds;
             name = crosec.name;
         }
