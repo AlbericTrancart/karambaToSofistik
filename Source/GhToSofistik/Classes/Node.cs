@@ -6,13 +6,11 @@ using System.Text;
 namespace GhToSofistik.Classes {
     class Node {
         public int id;
-        public int GHid;
         public double x, y, z;
         public List<string> constraints;
 
         public Node(Karamba.Nodes.Node node) {
-            id = IdManager.createId("node");
-            GHid = 0;
+            id = 0;
             x = y = z = 0;
             constraints = new List<string>();
 
@@ -23,12 +21,14 @@ namespace GhToSofistik.Classes {
             x = node.pos.X;
             y = node.pos.Y;
             z = node.pos.Z;
-            GHid = node.ind;
+            id = node.ind;
         }
 
         public string sofistring() {
             string sofi = "";
-            sofi += "NODE " + id + " X " + x + " Y " + y + " Z " + z;
+            sofi += "NODE " + id + " X " + Math.Truncate(x * 1000) / 1000 
+                                 + " Y " + Math.Truncate(y * 1000) / 1000 
+                                 + " Z " + Math.Truncate(z * 1000) / 1000; //We only want three decimals
 
             if (constraints.Count != 0) {
                 sofi += " FIX ";

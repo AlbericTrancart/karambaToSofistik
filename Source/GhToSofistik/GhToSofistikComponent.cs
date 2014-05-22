@@ -59,7 +59,6 @@ namespace GhToSofistik {
                 if (path == "") {
                     status += "No file path specified. Will not save data to a .dat file.\n";
                 }
-
                 
                 // Retrieve and store the data
                 foreach(Karamba.Materials.FemMaterial material in model.materials) {

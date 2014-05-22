@@ -7,7 +7,6 @@ using System.Drawing;
 namespace GhToSofistik.Classes {
     class Beam {
         public int id;
-        public string GHid;
         public List<int> ids; // Elements to apply to
         public Node start;
         public Node end;
@@ -15,14 +14,13 @@ namespace GhToSofistik.Classes {
         public Color color;
 
         public Beam(Karamba.Elements.ModelElement beam) {
-            id = IdManager.createId("beam");
-            GHid = "";
+            id = 0;
             ids = new List<int>();
             hydrate(beam);
         }
 
         public void hydrate(Karamba.Elements.ModelElement beam) {
-            GHid = beam.id;
+            id = beam.ind;
             ids = beam._node_inds;
             color = beam.color;
         }
