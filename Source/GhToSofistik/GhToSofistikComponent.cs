@@ -61,16 +61,29 @@ namespace GhToSofistik {
                 }
                 
                 // Retrieve and store the data
+
+                // Materials
                 foreach(Karamba.Materials.FemMaterial material in model.materials) {
                     materials.Add(new Material(material));
                 }
+                // Check for material duplicates
+                // This is necessary because karamba uses a preset material that is added every time that a model is assembled
+                // As a consequence a model can get a great amount of redundant materials that will flood the output
+                // Furthermore the cloning operation seems to create one more useless material at index 0
+                
+                // Using a for loop because a collection used in foreach is immutable
+                for (int i = 0; i < materials.Count; i++) {
+                    materials.RemoveAll(delegate(Material test_material) { return materials[i].duplicate(test_material); });
+                }
                 status += materials.Count + " materials loaded...\n";
 
+                // Cross sections
                 foreach (Karamba.CrossSections.CroSec crosec in model.crosecs) {
                     crossSections.Add(new CrossSection(crosec));
                 }
                 status += crossSections.Count + " cross sections loaded...\n";
 
+                // Nodes
                 foreach (Karamba.Nodes.Node node in model.nodes) {
                     nodes.Add(new Node(node));
                 }
@@ -81,6 +94,7 @@ namespace GhToSofistik {
                 }
                 status += "Support constraints added to " + model.supports.Count + " nodes.\n";
 
+                // Beams
                 foreach (Karamba.Elements.ModelElement beam in model.elems) {
                     Beam curBeam = new Beam(beam);
 
@@ -91,7 +105,15 @@ namespace GhToSofistik {
                 }
                 status += beams.Count + " beams loaded...\n";
                 
+                // Loads
+                // TODO
 
+                // ID matching
+                // Karamba and Sofistik use different ID systems
+                // Karamba's materials and cross sections are pointing to an element ID
+                // Sofistik's elements need a cross section ID which needs a material ID
+
+                
                 // Write the data into a .dat file format
                 Parser parser = new Parser(materials, crossSections, nodes, beams, loads);
                 output = parser.file;
