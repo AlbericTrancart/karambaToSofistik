@@ -68,9 +68,7 @@ namespace GhToSofistik {
                 }
                 // Check for material duplicates
                 // This is necessary because karamba uses a preset material that is added every time that a model is assembled
-                // As a consequence a model can get a great amount of redundant materials that will flood the output
-                // Furthermore the cloning operation seems to create one more useless material at index 0
-                
+                // As a consequence a model can get a great amount of redundant materials that will flood the output 
                 // Using a for loop because a collection used in foreach is immutable
                 for (int i = 0; i < materials.Count; i++) {
                     materials.RemoveAll(delegate(Material test_material) { return materials[i].duplicate(test_material); });
@@ -79,6 +77,7 @@ namespace GhToSofistik {
 
                 // Cross sections
                 foreach (Karamba.CrossSections.CroSec crosec in model.crosecs) {
+                    status += "fam:" + crosec.name + "\nshape:" + crosec.shape() + "\nDims" + string.Join(", ",crosec.dims) + "\nProps" + string.Join(", ",crosec.props) + "\n";
                     crossSections.Add(new CrossSection(crosec));
                 }
                 status += crossSections.Count + " cross sections loaded...\n";
