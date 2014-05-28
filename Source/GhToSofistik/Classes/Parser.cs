@@ -14,11 +14,13 @@ namespace GhToSofistik.Classes {
             file += "+PROG AQUA urs:1\n\n";
 
             foreach (Material material in materials) {
-                file += material.sofistring() + "\n\n";
+                if(material.sofistring() != "")
+                    file += material.sofistring() + "\n\n";
             }
             file += "\n";
             foreach (CrossSection crossSection in crossSections) {
-                file += crossSection.sofistring() + "\n";
+                if (crossSection.sofistring() != "")
+                    file += crossSection.sofistring() + "\n";
             }
 
             // SOFIMSHA definitions

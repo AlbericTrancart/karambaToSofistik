@@ -35,13 +35,16 @@ namespace GhToSofistik.Classes {
 
         //Check if "test" is a duplicate of this material - necessary because karamba adds preset materials
         public bool duplicate(Material test) {
-            return (ids == test.ids
-                    && E == test.E
+            if(E == test.E
                     && G == test.G
                     && gamma == test.gamma
                     && alphaT == test.alphaT
                     && fy == test.fy
-                );
+                ) {
+                    ids.AddRange(test.ids);
+                    return true;
+            }
+            return false;
         }
     }
 }

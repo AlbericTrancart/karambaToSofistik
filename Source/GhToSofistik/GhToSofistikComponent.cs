@@ -53,74 +53,107 @@ namespace GhToSofistik {
                 if (!DA.GetData<GH_Model>(0, ref in_gh_model)) return;
                 Model model = in_gh_model.Value;
                 model = (Karamba.Models.Model) model.Clone(); //If the model is not cloned a modification to this variable will imply modification of the input model, thus modifying behavior in other components.
-                
-                string path = null;
-                if (!DA.GetData<string>(1, ref path)) { path = ""; }
-                if (path == "") {
-                    status += "No file path specified. Will not save data to a .dat file.\n";
+
+                if (model == null) {
+                    status += "ERROR: The input model is null.";
+                    output = "Nothing to convert";
                 }
-                
-                // Retrieve and store the data
+                else {
+                    string path = null;
+                    if (!DA.GetData<string>(1, ref path)) { path = ""; }
+                    if (path == "") {
+                        status += "No file path specified. Will not save data to a .dat file.\n";
+                    }
 
-                // Materials
-                foreach(Karamba.Materials.FemMaterial material in model.materials) {
-                    materials.Add(new Material(material));
-                }
-                // Check for material duplicates
-                // This is necessary because karamba uses a preset material that is added every time that a model is assembled
-                // As a consequence a model can get a great amount of redundant materials that will flood the output 
-                // Using a for loop because a collection used in foreach is immutable
-                for (int i = 0; i < materials.Count; i++) {
-                    materials.RemoveAll(delegate(Material test_material) { return materials[i].duplicate(test_material); });
-                }
-                status += materials.Count + " materials loaded...\n";
 
-                // Cross sections
-                foreach (Karamba.CrossSections.CroSec crosec in model.crosecs) {
-                    status += "fam:" + crosec.name + "\nshape:" + crosec.shape() + "\nDims" + string.Join(", ",crosec.dims) + "\nProps" + string.Join(", ",crosec.props) + "\n";
-                    crossSections.Add(new CrossSection(crosec));
-                }
-                status += crossSections.Count + " cross sections loaded...\n";
 
-                // Nodes
-                foreach (Karamba.Nodes.Node node in model.nodes) {
-                    nodes.Add(new Node(node));
-                }
-                status += nodes.Count + " nodes loaded...\n";
+                    // Retrieve and store the data
 
-                foreach (Karamba.Supports.Support support in model.supports) {
-                    nodes[support.node_ind].addConstraint(support);
-                }
-                status += "Support constraints added to " + model.supports.Count + " nodes.\n";
 
-                // Beams
-                foreach (Karamba.Elements.ModelElement beam in model.elems) {
-                    Beam curBeam = new Beam(beam);
 
-                    // Adding the start and end nodes
-                    curBeam.start = nodes[curBeam.ids[0]];
-                    curBeam.end = nodes[curBeam.ids[1]];
-                    beams.Add(curBeam);
-                }
-                status += beams.Count + " beams loaded...\n";
-                
-                // Loads
-                // TODO
+                    // Materials
+                    foreach (Karamba.Materials.FemMaterial material in model.materials) {
+                        materials.Add(new Material(material));
+                    }
+                    // Check for material duplicates
+                    // This is necessary because karamba uses a preset material that is added every time that a model is assembled
+                    // As a consequence a model can get a great amount of redundant materials that will flood the output 
 
-                // ID matching
-                // Karamba and Sofistik use different ID systems
-                // Karamba's materials and cross sections are pointing to an element ID
-                // Sofistik's elements need a cross section ID which needs a material ID
+                    // Furthermore karamba seems to create a buggy material at index 0 during the cloning operation
+                    materials.RemoveAt(0);
+                    // Using a for loop because a collection used in foreach is immutable
+                    for (int i = 0; i < materials.Count; i++) {
+                        materials.RemoveAll(delegate(Material test_material) {
+                            return test_material.id != materials[i].id && materials[i].duplicate(test_material);
+                        });
+                    }
+                    status += materials.Count + " materials loaded...\n";
 
-                
-                // Write the data into a .dat file format
-                Parser parser = new Parser(materials, crossSections, nodes, beams, loads);
-                output = parser.file;
 
-                if (path != "") {
-                    status += "Saving file to " + path + "\n";
-                    System.IO.File.WriteAllText(@path, output);
-                    status += "File saved!\n";
+
+                    // Cross sections
+                    foreach (Karamba.CrossSections.CroSec crosec in model.crosecs) {
+                        crossSections.Add(new CrossSection(crosec));
+                    }
+                    // The same happens with Cross Sections
+                    crossSections.RemoveAt(0);
+                    for (int i = 0; i < crossSections.Count; i++) {
+                        crossSections.RemoveAll(delegate(CrossSection test_crosec) {
+                            return test_crosec.id != crossSections[i].id && crossSections[i].duplicate(test_crosec);
+                        });
+                    }
+                    status += crossSections.Count + " cross sections loaded...\n";
+
+
+
+                    // Nodes
+                    foreach (Karamba.Nodes.Node node in model.nodes) {
+                        nodes.Add(new Node(node));
+                    }
+                    status += nodes.Count + " nodes loaded...\n";
+
+                    foreach (Karamba.Supports.Support support in model.supports) {
+                        nodes[support.node_ind].addConstraint(support);
+                    }
+                    status += "Support constraints added to " + model.supports.Count + " nodes.\n";
+
+
+
+                    // Beams
+                    foreach (Karamba.Elements.ModelElement beam in model.elems) {
+                        Beam curBeam = new Beam(beam);
+
+                        // Adding the start and end nodes
+                        curBeam.start = nodes[curBeam.ids[0]];
+                        curBeam.end = nodes[curBeam.ids[1]];
+                        beams.Add(curBeam);
+                    }
+                    status += beams.Count + " beams loaded...\n";
+
+
+
+                    // Loads
+                    // TODO
+
+
+
+                    // ID matching
+                    // Karamba and Sofistik use different ID systems
+                    // Karamba's materials and cross sections are pointing to an element ID
+                    // Sofistik's elements need a cross section ID which needs a material ID
+
+
+
+
+                    // Write the data into a .dat file format
+                    Parser parser = new Parser(materials, crossSections, nodes, beams, loads);
+                    output = parser.file;
+
+                    if (path != "") {
+                        status += "Saving file to " + path + "\n";
+                        System.IO.File.WriteAllText(@path, output);
+                        status += "File saved!\n";
+                    }
                 }
             }
             catch (Exception e) {
