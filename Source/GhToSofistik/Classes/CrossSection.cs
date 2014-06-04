@@ -10,6 +10,7 @@ namespace GhToSofistik.Classes {
         public string shape;     // Available: O, [], V, I
         public double diameter, thickness, height, upperWidth, lowerWidth, upperThick, lowerThick, sWallThick, webThick, filletRadius;
         public string name;
+        public Material material;
         
         public CrossSection(Karamba.CrossSections.CroSec crosec) {
             id = 0;
@@ -59,20 +60,22 @@ namespace GhToSofistik.Classes {
         public string sofistring() {
             // Sofistik wants mm
             if (shape == "V") {
-                return "SREC ";
+                return "SREC " + id + " MNO " + material.id;
             }
             else if (shape == "O") {
-                return "SCIT " + id + " D " + Math.Truncate(diameter * 1000)        
+                return "SCIT " + id + " MNO " + material.id
+                                    + " D " + Math.Truncate(diameter * 1000)        
                                     + " T " + Math.Truncate(thickness * 1000);
             }
             else if (shape == "[]") {
-                return "SREC " + id + " H " + Math.Truncate(height * 1000)
+                return "SREC " + id + " MNO " + material.id 
+                                    + " H " + Math.Truncate(height * 1000)
                                     + " B " + Math.Truncate(thickness * 1000)
                                     + " HO " + Math.Truncate(upperThick * 1000)
                                     + " BO " + Math.Truncate(upperWidth * 1000);
             }
             else if (shape == "I") {
-                return "SREC ";
+                return "SREC " + id + " MNO " + material.id;
             }
             return "";
         }

@@ -26,7 +26,7 @@ namespace GhToSofistik.Classes {
         }
 
         public string sofistring() {
-            return "BEAM NO " + id + " NA " + start.id + " NE " + end.id + " NCS ";
+            return "BEAM NO " + id + " NA " + start.id + " NE " + end.id + " NCS " + sec.id;
         }
     }
 }

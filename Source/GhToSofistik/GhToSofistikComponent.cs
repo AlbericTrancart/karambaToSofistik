@@ -141,7 +141,40 @@ namespace GhToSofistik {
                     // Karamba and Sofistik use different ID systems
                     // Karamba's materials and cross sections are pointing to an element ID
                     // Sofistik's elements need a cross section ID which needs a material ID
+                    
+                    foreach(Material material in materials){
+                        //If the IDs list is empty, it means that we want to apply the material to the whole structure
+                        bool test = false;
+                        foreach(string id in material.ids) {
+                            if(id == "")
+                                test = true;
+                        }
+                        if (test) {
+                            foreach (CrossSection crosec in crossSections) {
+                                crosec.material = material;
+                            }
+                        }
+                        else {
+                            //TODO
+                        }
+                    }
 
+                    foreach (CrossSection crosec in crossSections) {
+                        //If the IDs list is empty, it means that we want to apply the cross section to the whole structure
+                        bool test = false;
+                        foreach (string id in crosec.ids) {
+                            if (id == "")
+                                test = true;
+                        }
+                        if (test) {
+                            foreach (Beam beam in beams) {
+                                beam.sec = crosec;
+                            }
+                        }
+                        else {
+                            //TODO
+                        }
+                    }
 
 
 
