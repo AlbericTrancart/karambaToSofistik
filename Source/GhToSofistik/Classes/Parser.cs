@@ -11,7 +11,7 @@ namespace GhToSofistik.Classes {
             file = "";
             
             // AQUA definitions
-            file += "+PROG AQUA urs:1\n\n";
+            file += "+PROG AQUA urs:1\nHEAD Material and cross section definitions\n\n";
 
             foreach (Material material in materials) {
                 if(material.sofistring() != "")
@@ -24,7 +24,7 @@ namespace GhToSofistik.Classes {
             }
 
             // SOFIMSHA definitions
-            file += "\nEND\n\n+PROG SOFIMSHA urs:2\n\nPAGE UNII\nSYST 3D GDIR NEGZ GDIV 1000\n\n";
+            file += "\nEND\n\n+PROG SOFIMSHA urs:2\nHEAD Elements\n\nPAGE UNII\nSYST 3D GDIR NEGZ GDIV 1000\n\n";
 
             foreach (Node node in nodes) {
                 file += node.sofistring() + "\n";
@@ -35,14 +35,13 @@ namespace GhToSofistik.Classes {
             }
 
             // SOFILOAD definitions
-            file += "\n\n+PROG SOFILOAD urs:4\n\n";
+            file += "\n\n+PROG SOFILOAD urs:4\nHEAD Loads\n\n";
             foreach (Load load in loads) {
                 file += load.sofistring() + "\n";
             }
 
             // Analysis
-            file += "END\n\n+PROG ASE urs:13\n\nSYST PROB line\nLC 11  TITL\n";
-            file += "\nEND\n";
+            file += "END\n\n+PROG ASE urs:13\nHEAD Solving\n\nSYST PROB line\nLC ALL\n\nEND\n";
         }
     }
 }

@@ -10,7 +10,7 @@ namespace GhToSofistik.Classes {
         public List<string> constraints;
 
         public Node(Karamba.Nodes.Node node) {
-            id = 0;
+            id = 1;
             x = y = z = 0;
             constraints = new List<string>();
 
@@ -21,12 +21,12 @@ namespace GhToSofistik.Classes {
             x = node.pos.X;
             y = node.pos.Y;
             z = node.pos.Z;
-            id = node.ind;
+            id = node.ind + 1; //Sofistik begins at 1 not 0
         }
 
         public string sofistring() {
             string sofi = "";
-            sofi += "NODE " + id + " X " + Math.Truncate(x * 1000) / 1000 
+            sofi += "NODE NO " + id + " X " + Math.Truncate(x * 1000) / 1000 
                                  + " Y " + Math.Truncate(y * 1000) / 1000 
                                  + " Z " + Math.Truncate(z * 1000) / 1000; //We only want three decimals
 

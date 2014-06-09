@@ -133,9 +133,18 @@ namespace GhToSofistik {
 
 
                     // Loads
-                    // TODO
-
-
+                    foreach (Karamba.Loads.PointLoad load in model.ploads) {
+                        Load current = new Load(load);
+                        current.node = nodes[load.node_ind];
+                        loads.Add(current);
+                    }
+                    foreach (Karamba.Loads.ElementLoad load in model.eloads) {
+                        Load current = new Load(load);
+                        loads.Add(current);
+                    }
+                    foreach (KeyValuePair<int,Karamba.Loads.GravityLoad> load in model.gravities) {
+                        loads.Add(new Load(load));
+                    }
 
                     // ID matching
                     // Karamba and Sofistik use different ID systems
