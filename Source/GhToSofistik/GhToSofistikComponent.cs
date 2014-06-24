@@ -69,8 +69,6 @@ namespace GhToSofistik {
 
                     // Retrieve and store the data
 
-
-
                     // Materials
                     foreach (Karamba.Materials.FemMaterial material in model.materials) {
                         materials.Add(new Material(material));
@@ -175,37 +173,33 @@ namespace GhToSofistik {
                     // Sofistik's elements need a cross section ID which needs a material ID
                     
                     foreach(Material material in materials){
-                        //If the IDs list is empty, it means that we want to apply the material to the whole structure
+                        //If the IDs list is empty, it means that we want to apply the material to the whole structure (whichi is the default behavior: the default material is set by the constructors of all elements)
                         bool test = false;
                         foreach(string id in material.ids) {
-                            if(id == "")
+                            if(id != "")
                                 test = true;
                         }
                         if (test) {
                             foreach (CrossSection crosec in crossSections) {
-                                crosec.material = material;
+                                if(material.ids.Contains((crosec.id - 1).ToString()))
+                                    crosec.material = material;
                             }
-                        }
-                        else {
-                            //TODO
                         }
                     }
                     status += "Matching with material IDs...\n";
                     
                     foreach (CrossSection crosec in crossSections) {
-                        //If the IDs list is empty, it means that we want to apply the cross section to the whole structure
+                        //If the IDs list is empty, it means that we want to apply the cross section to the whole structure (which is the default behavior: the default cross section is set by the constructors of all elements)
                         bool test = false;
                         foreach (string id in crosec.ids) {
-                            if (id == "")
+                            if (id != "")
                                 test = true;
                         }
                         if (test) {
                             foreach (Beam beam in beams) {
-                                beam.sec = crosec;
+                                if (crosec.ids.Contains((beam.id - 1).ToString()))
+                                    beam.sec = crosec;
                             }
-                        }
-                        else {
-                            //TODO
                         }
                     }
                     status += "Matching with cross section IDs...\n";
