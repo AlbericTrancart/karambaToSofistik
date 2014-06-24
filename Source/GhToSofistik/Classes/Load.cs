@@ -9,6 +9,7 @@ namespace GhToSofistik.Classes {
         static public int id_count = 1; //Karamba does not provide IDs so we must create one
         public int id;
         public Beam beam;               // Element to apply to for element load
+        public int orientation;         // Local (0), global (1) or projeted (2) orientation for element loads
         public Node node;               // For Point Loads
         public string type;             // Valid types are "G, P, E" for Gravity, Point and Element Load
         public Vector3d force;
@@ -20,7 +21,7 @@ namespace GhToSofistik.Classes {
 
         public Load(KeyValuePair<int, Karamba.Loads.GravityLoad> load) { init("G"); hydrate(load.Value); }
         public Load(Karamba.Loads.PointLoad load) { init("P"); hydrate(load); }
-        public Load(Karamba.Loads.ElementLoad load) { init("E"); hydrate(load); }
+        public Load(Karamba.Loads.UniformlyDistLoad load) { init("E"); hydrate(load); }
 
         public void hydrate(Karamba.Loads.GravityLoad load) {
             force = load.force;
@@ -30,8 +31,9 @@ namespace GhToSofistik.Classes {
             force = load.force;
         }
 
-        public void hydrate(Karamba.Loads.ElementLoad load) {
-            
+        public void hydrate(Karamba.Loads.UniformlyDistLoad load) {
+            orientation = (int) load.q_orient;
+            force = load.Load;
         }
 
         public string sofistring() {
@@ -49,7 +51,11 @@ namespace GhToSofistik.Classes {
                                              + " P2 " + force.Y
                                              + " P3 " + force.Z;
             else if (type == "E")
-                return "LC NO " + id + " TYPE ";
+                return "LC NO " + id + " TYPE L\nBEAM " + beam.id
+                                             + " TYPE " + ((orientation == 1)?"PP":"P")
+                                             + " P1 " + force.X
+                                             + " P2 " + force.Y
+                                             + " P3 " + force.Z;
             return "";
         }
     }

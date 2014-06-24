@@ -58,7 +58,7 @@ namespace GhToSofistik.Classes {
         }
 
         public string sofistring() {
-            // Sofistik wants mm
+            // Sofistik wants millimeters
             if (shape == "V") {
                 return "SREC " + id + " MNO " + material.id;
             }

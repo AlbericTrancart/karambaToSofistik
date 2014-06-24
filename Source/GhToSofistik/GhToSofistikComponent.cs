@@ -75,6 +75,8 @@ namespace GhToSofistik {
                     foreach (Karamba.Materials.FemMaterial material in model.materials) {
                         materials.Add(new Material(material));
                     }
+
+                    /*Disabled for forward compatibility
                     // Check for material duplicates
                     // This is necessary because karamba uses a preset material that is added every time that a model is assembled
                     // As a consequence a model can get a great amount of redundant materials that will flood the output 
@@ -87,6 +89,7 @@ namespace GhToSofistik {
                             return test_material.id != materials[i].id && materials[i].duplicate(test_material);
                         });
                     }
+                    */
                     status += materials.Count + " materials loaded...\n";
 
 
@@ -95,6 +98,7 @@ namespace GhToSofistik {
                     foreach (Karamba.CrossSections.CroSec crosec in model.crosecs) {
                         crossSections.Add(new CrossSection(crosec));
                     }
+                    /*Disabled for forward compatibility
                     // The same happens with Cross Sections
                     crossSections.RemoveAt(0);
                     for (int i = 0; i < crossSections.Count; i++) {
@@ -103,7 +107,7 @@ namespace GhToSofistik {
                         });
                     }
                     status += crossSections.Count + " cross sections loaded...\n";
-
+                    */
 
 
                     // Nodes
@@ -133,18 +137,37 @@ namespace GhToSofistik {
 
 
                     // Loads
+                    foreach (KeyValuePair<int, Karamba.Loads.GravityLoad> load in model.gravities) {
+                        loads.Add(new Load(load));
+                    }
+                    status += model.gravities.Count + " gravity loads added.\n";
+                    
                     foreach (Karamba.Loads.PointLoad load in model.ploads) {
                         Load current = new Load(load);
                         current.node = nodes[load.node_ind];
                         loads.Add(current);
                     }
-                    foreach (Karamba.Loads.ElementLoad load in model.eloads) {
-                        Load current = new Load(load);
-                        loads.Add(current);
+                    status += model.ploads.Count + " point loads added.\n";
+
+                    foreach (Karamba.Loads.UniformlyDistLoad load in model.eloads) {
+                        //If there is not target element, apply the load to the whole structure
+                        if (load.beamId == "") {
+                            foreach (Beam beam in beams) {
+                                Load current = new Load(load);
+                                current.beam = beam;
+                                loads.Add(current);
+                            }
+                        }
+                        else {
+                            Load current = new Load(load);
+                            //We search the element
+                            current.beam = beams.Find(delegate(Beam beam) {
+                                return beam.user_id == load.beamId;
+                            });
+                            loads.Add(current);
+                        }
                     }
-                    foreach (KeyValuePair<int,Karamba.Loads.GravityLoad> load in model.gravities) {
-                        loads.Add(new Load(load));
-                    }
+                    status += model.eloads.Count + " line loads added.\n";
 
                     // ID matching
                     // Karamba and Sofistik use different ID systems
@@ -167,7 +190,8 @@ namespace GhToSofistik {
                             //TODO
                         }
                     }
-
+                    status += "Matching with material IDs...\n";
+                    
                     foreach (CrossSection crosec in crossSections) {
                         //If the IDs list is empty, it means that we want to apply the cross section to the whole structure
                         bool test = false;
@@ -184,8 +208,7 @@ namespace GhToSofistik {
                             //TODO
                         }
                     }
-
-
+                    status += "Matching with cross section IDs...\n";
 
                     // Write the data into a .dat file format
                     Parser parser = new Parser(materials, crossSections, nodes, beams, loads);
@@ -199,7 +222,7 @@ namespace GhToSofistik {
                 }
             }
             catch (Exception e) {
-                status += "\nERROR!\n" + e.ToString() + "\n";
+                status += "\nERROR!\n" + e.ToString() + "\n" + e.Data;
             }
 
             // Return data
