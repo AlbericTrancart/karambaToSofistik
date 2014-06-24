@@ -9,12 +9,13 @@ namespace GhToSofistik.Classes {
         public double x, y, z;
         public List<string> constraints;
 
-        public Node(Karamba.Nodes.Node node) {
+        public Node(Karamba.Nodes.Node node = null) {
             id = 1;
             x = y = z = 0;
             constraints = new List<string>();
 
-            hydrate(node);
+            if (node != null)
+                hydrate(node);
         }
 
         public void hydrate(Karamba.Nodes.Node node) {

@@ -12,18 +12,20 @@ namespace GhToSofistik.Classes {
         public string name;
         public Material material;
         
-        public CrossSection(Karamba.CrossSections.CroSec crosec) {
-            id = 0;
+        public CrossSection(Karamba.CrossSections.CroSec crosec = null) {
+            id = 1;
             ids = new List<string>();
             diameter = thickness = height = upperWidth = lowerWidth = upperThick = lowerThick = sWallThick = webThick = filletRadius = 0;
             shape = "";
             name = "";
+            material = new Material();
 
-            hydrate(crosec);
+            if(crosec != null)
+                hydrate(crosec);
         }
 
         public void hydrate(Karamba.CrossSections.CroSec crosec) {
-            id = (int) crosec.ind;
+            id = (int) crosec.ind + 1; //Sofistik begins at 1 not 0
             ids = crosec.elemIds;
             name = crosec.name;
             shape = crosec.shape();

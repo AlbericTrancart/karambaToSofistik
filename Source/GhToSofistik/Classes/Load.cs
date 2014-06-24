@@ -17,6 +17,10 @@ namespace GhToSofistik.Classes {
 
         public void init(string par_type) {
             type = par_type;
+            beam = new Beam();
+            node = new Node();
+            id = 1;
+            force = new Vector3d();
         }
 
         public Load(KeyValuePair<int, Karamba.Loads.GravityLoad> load) { init("G"); hydrate(load.Value); }

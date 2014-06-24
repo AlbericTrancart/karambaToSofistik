@@ -14,11 +14,16 @@ namespace GhToSofistik.Classes {
         public CrossSection sec;
         public Color color;
 
-        public Beam(Karamba.Elements.ModelElement beam) {
+        public Beam(Karamba.Elements.ModelElement beam = null) {
             id = 1;
             ids = new List<int>();
             user_id = "";
-            hydrate(beam);
+            start = end = new Node();
+            sec = new CrossSection();
+            color = new Color();
+
+            if (beam != null)
+                hydrate(beam);
         }
 
         public void hydrate(Karamba.Elements.ModelElement beam) {

@@ -10,16 +10,18 @@ namespace GhToSofistik.Classes {
         public double E, G, gamma, alphaT, fy;
         string name;
 
-        public Material(Karamba.Materials.FemMaterial material) {
+        public Material(Karamba.Materials.FemMaterial material = null) {
             ids = new List<string>();
-            id = 0;
+            id = 1;
             E = G = gamma = alphaT = fy = 0;
             name = "";
-            hydrate(material);
+
+            if (material != null)
+                hydrate(material);
         }
 
         public void hydrate(Karamba.Materials.FemMaterial material) {
-            id = (int) material.ind;
+            id = (int) material.ind + 1; //Sofistik begins at 1 not 0
             ids = material.elemIds;
             E = material.E /10000;
             G = material.G / 10000;
