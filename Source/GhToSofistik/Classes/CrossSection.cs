@@ -65,7 +65,7 @@ namespace GhToSofistik.Classes {
                 return "SREC " + id + " MNO " + material.id;
             }
             else if (shape == "O") {
-                return "SCIT " + id + " MNO " + material.id
+                return "TUBE " + id + " MNO " + material.id
                                     + " D " + Math.Truncate(diameter * 1000)        
                                     + " T " + Math.Truncate(thickness * 1000);
             }

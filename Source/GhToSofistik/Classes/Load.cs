@@ -56,10 +56,8 @@ namespace GhToSofistik.Classes {
                                              + " P3 " + force.Z;
             else if (type == "E")
                 return "LC NO " + id + " TYPE L\nBEAM " + beam.id
-                                             + " TYPE " + ((orientation == 1)?"PP":"P")
-                                             + " P1 " + force.X
-                                             + " P2 " + force.Y
-                                             + " P3 " + force.Z;
+                                             + " TYPE " + ((orientation == 1) ? "PXXPYYPZZ" : "PXPYPZ")
+                                             + " PA " + force.X + "," + force.Y + "," + force.Z;
             return "";
         }
     }
