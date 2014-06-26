@@ -57,7 +57,7 @@ namespace GhToSofistik.Classes {
                                      + " P3 " + force.Z.ToString("F0");
             else if (type == "E")
                 return "LC NO " + id + " TYPE L\nBEAM " + beam.id
-                                     + " TYPE " + ((orientation == 1) ? "PXXPYYPZZ" : "PXPYPZ")
+                                     + " TYPE " + ((orientation == 1) ? "PXX,PYY,PZZ" : "PX,PY,PZ")
                                      + " PA " + force.X.ToString("F0") 
                                      + ","    + force.Y.ToString("F0") 
                                      + ","    + force.Z.ToString("F0");
