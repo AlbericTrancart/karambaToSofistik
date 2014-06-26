@@ -63,16 +63,26 @@ namespace GhToSofistik.Classes {
             // Sofistik wants millimeters
             if (shape == "V") {
                 return "SECT " + id + " MNO " + material.id
-                               + "\nPLAT 1 " + (-upperWidth / 2).ToString("F0") + " " + height.ToString("F0")
-                                             + " " + (upperWidth / 2).ToString("F0") + " " + height.ToString("F0") 
-                                             + " T 10"
-                               + "\n2 " + (upperWidth / 2).ToString("F0") + " " + height.ToString("F0")
-                                        + " " + (upperWidth / 2).ToString("F0") + " 0 T 10"
-                               + "\n3 " + (upperWidth / 2).ToString("F0") + " 0 "
-                                        + (-upperWidth / 2).ToString("F0") + " 0 T 10"
-                               + "\n4 " + (-upperWidth / 2).ToString("F0") + " 0 "
-                                        + (-upperWidth / 2).ToString("F0") + " " + height.ToString("F0")
-                                        + " T 10";
+                               + "\nPLAT 1 " + (-upperWidth / 2).ToString("F0") + " "
+                                             + height.ToString("F0") + " "
+                                             + (upperWidth / 2).ToString("F0") + " "
+                                             + height.ToString("F0") + " " 
+                                             + "T 10"
+                               + "\n2 " + (upperWidth / 2).ToString("F0") + " "
+                                        + height.ToString("F0") + " "
+                                        + (upperWidth / 2).ToString("F0") + " "
+                                        + 0 + " " 
+                                        + "T 10"
+                               + "\n3 " + (upperWidth / 2).ToString("F0") + " "
+                                        + 0 + " "
+                                        + (-upperWidth / 2).ToString("F0") + " "
+                                        + 0 + " "
+                                        + "T 10"
+                               + "\n4 " + (-upperWidth / 2).ToString("F0") + " "
+                                        + 0 + " "
+                                        + (-upperWidth / 2).ToString("F0") + " "
+                                        + height.ToString("F0") + " "
+                                        + "T 10";
             }
             else if (shape == "O") {
                 return "TUBE " + id + " MNO " + material.id
@@ -85,7 +95,67 @@ namespace GhToSofistik.Classes {
                                     + " B "   + lowerWidth.ToString("F0");
             }
             else if (shape == "I") {
-                return "SECT " + id + " MNO " + material.id;
+                return "SECT " + id + " MNO " + material.id
+                               + "\nPLAT 1 " + (-upperWidth / 2).ToString("F0") + " " 
+                                             + height.ToString("F0") + " " 
+                                             + (upperWidth / 2).ToString("F0") + " "
+                                             + height.ToString("F0") + " "
+                                             + "T 10"
+                               + "\n2 "  + (upperWidth / 2).ToString("F0") + " "
+                                         + height.ToString("F0") + " "
+                                         + (upperWidth / 2).ToString("F0") + " "
+                                         + (height - upperThick).ToString("F0") + " "
+                                         + "T 10"
+                               + "\n3 "  + (upperWidth / 2).ToString("F0") + " "
+                                         + (height - upperThick).ToString("F0") + " "
+                                         + (webThick / 2).ToString("F0") + " "
+                                         + (height - upperThick).ToString("F0") + " "
+                                         + "T 10"
+                               + "\n4 "  + (webThick / 2).ToString("F0") + " "
+                                         + (height - upperThick).ToString("F0") + " "
+                                         + (webThick / 2).ToString("F0") + " "
+                                         + lowerThick.ToString("F0") + " "
+                                         + "T 10"
+                               + "\n5 "  + (webThick / 2).ToString("F0") + " "
+                                         + lowerThick.ToString("F0") + " "
+                                         + (lowerWidth / 2).ToString("F0") + " "
+                                         + lowerThick.ToString("F0") + " "
+                                         + "T 10"
+                               + "\n6 "  + (lowerWidth / 2).ToString("F0") + " "
+                                         + lowerThick.ToString("F0") + " "
+                                         + (lowerWidth / 2).ToString("F0") + " "
+                                         + 0 + " "
+                                         + "T 10"
+                               + "\n7 "  + (lowerWidth / 2).ToString("F0") + " "
+                                         + 0 + " "
+                                         + (-lowerWidth / 2).ToString("F0") + " "
+                                         + 0 + " "
+                                         + "T 10"
+                               + "\n8 "  + (-lowerWidth / 2).ToString("F0") + " "
+                                         + 0 + " "
+                                         + (-lowerWidth / 2).ToString("F0") + " "
+                                         + lowerThick.ToString("F0") + " "
+                                         + "T 10"
+                               + "\n9 "  + (-lowerWidth / 2).ToString("F0") + " "
+                                         + lowerThick.ToString("F0") + " "
+                                         + (-webThick / 2).ToString("F0") + " "
+                                         + lowerThick.ToString("F0") + " "
+                                         + "T 10"
+                               + "\n10 " + (-webThick / 2).ToString("F0") + " "
+                                         + lowerThick.ToString("F0") + " "
+                                         + (-webThick / 2).ToString("F0") + " "
+                                         + (height - upperThick).ToString("F0") + " "
+                                         + "T 10"
+                               + "\n11 " + (-webThick / 2).ToString("F0") + " "
+                                         + (height - upperThick).ToString("F0") + " "
+                                         + (-upperWidth / 2).ToString("F0") + " "
+                                         + (height - upperThick).ToString("F0") + " "
+                                         + "T 10"
+                               + "\n12 " + (-upperWidth / 2).ToString("F0") + " "
+                                         + (height - upperThick).ToString("F0") + " "
+                                         + (-upperWidth / 2).ToString("F0") + " "
+                                         + height.ToString("F0") + " "
+                                         + "T 10";
             }
             return "";
         }
