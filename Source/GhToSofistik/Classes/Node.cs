@@ -27,9 +27,9 @@ namespace GhToSofistik.Classes {
 
         public string sofistring() {
             string sofi = "";
-            sofi += "NODE NO " + id + " X " + Math.Truncate(x * 1000) / 1000 
-                                 + " Y " + Math.Truncate(y * 1000) / 1000 
-                                 + " Z " + Math.Truncate(z * 1000) / 1000; //We only want three decimals
+            sofi += "NODE NO " + id + " X " + x.ToString("F3")
+                                    + " Y " + y.ToString("F3")
+                                    + " Z " + z.ToString("F3"); //We only want three decimals
 
             if (constraints.Count != 0) {
                 sofi += " FIX ";

@@ -41,7 +41,7 @@ namespace GhToSofistik.Classes {
             }
 
             // Analysis
-            file += "END\n\n+PROG ASE urs:13\nHEAD Solving\n\nSYST PROB line\nLC ALL\n\nEND\n";
+            file += "END\n\n+PROG ASE urs:13\nHEAD Solving\n\nSYST PROB LINE\nLC ALL\n\nEND\n";
         }
     }
 }

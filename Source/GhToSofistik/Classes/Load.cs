@@ -45,19 +45,22 @@ namespace GhToSofistik.Classes {
             id_count++;
 
             if (type == "G")
-                return "LC NO " + id + " TYPE P DLX " + force.X
-                                            + " DLY " + force.Y
-                                            + " DLZ " + force.Z;
+                return "LC NO " + id + " TYPE P" 
+                                     + " DLX " + force.X.ToString("F0")
+                                     + " DLY " + force.Y.ToString("F0")
+                                     + " DLZ " + force.Z.ToString("F0");
             else if (type == "P")
                 return "LC NO " + id + " TYPE L\nNODE NO " + node.id
-                                             + " TYPE PP"
-                                             + " P1 " + force.X
-                                             + " P2 " + force.Y
-                                             + " P3 " + force.Z;
+                                     + " TYPE PP"
+                                     + " P1 " + force.X.ToString("F0")
+                                     + " P2 " + force.Y.ToString("F0")
+                                     + " P3 " + force.Z.ToString("F0");
             else if (type == "E")
                 return "LC NO " + id + " TYPE L\nBEAM " + beam.id
-                                             + " TYPE " + ((orientation == 1) ? "PXXPYYPZZ" : "PXPYPZ")
-                                             + " PA " + force.X + "," + force.Y + "," + force.Z;
+                                     + " TYPE " + ((orientation == 1) ? "PXXPYYPZZ" : "PXPYPZ")
+                                     + " PA " + force.X.ToString("F0") 
+                                     + ","    + force.Y.ToString("F0") 
+                                     + ","    + force.Z.ToString("F0");
             return "";
         }
     }

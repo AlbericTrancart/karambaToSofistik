@@ -31,53 +31,51 @@ namespace GhToSofistik.Classes {
             shape = crosec.shape();
 
             if (shape == "V") {
-                height = (double) crosec.dims[0];
-                upperWidth = (double) crosec.dims[2];
-                lowerWidth = (double) crosec.dims[4];
+                height = (double) crosec.dims[0] * 1000;
+                upperWidth = (double) crosec.dims[2] * 1000;
+                lowerWidth = (double) crosec.dims[4] * 1000;
             }
             else if (shape == "O") {
-                diameter = (double) crosec.dims[0];
-                thickness = (double) crosec.dims[1];
+                diameter = (double) crosec.dims[0] * 1000;
+                thickness = (double) crosec.dims[1] * 1000;
             }
             else if (shape == "[]") {
-                height = (double) crosec.dims[0];
-                sWallThick = (double) crosec.dims[1];
-                upperWidth = (double) crosec.dims[2];
-                upperThick = (double) crosec.dims[3];
-                lowerWidth = (double) crosec.dims[4];
-                lowerThick = (double) crosec.dims[5];
-                filletRadius = (double) crosec.dims[6];
+                height = (double) crosec.dims[0] * 1000;
+                sWallThick = (double) crosec.dims[1] * 1000;
+                upperWidth = (double) crosec.dims[2] * 1000;
+                upperThick = (double) crosec.dims[3] * 1000;
+                lowerWidth = (double) crosec.dims[4] * 1000;
+                lowerThick = (double) crosec.dims[5] * 1000;
+                filletRadius = (double) crosec.dims[6] * 1000;
             }
             else if (shape == "I") {
-                height = (double) crosec.dims[0];
-                webThick = (double) crosec.dims[1];
-                upperWidth = (double) crosec.dims[2];
-                upperThick = (double) crosec.dims[3];
-                lowerWidth = (double) crosec.dims[4];
-                lowerThick = (double) crosec.dims[5];
-                filletRadius = (double) crosec.dims[6];
+                height = (double) crosec.dims[0] * 1000;
+                webThick = (double) crosec.dims[1] * 1000;
+                upperWidth = (double) crosec.dims[2] * 1000;
+                upperThick = (double) crosec.dims[3] * 1000;
+                lowerWidth = (double) crosec.dims[4] * 1000;
+                lowerThick = (double) crosec.dims[5] * 1000;
+                filletRadius = (double) crosec.dims[6] * 1000;
             }
         }
 
         public string sofistring() {
             // Sofistik wants millimeters
             if (shape == "V") {
-                return "SREC " + id + " MNO " + material.id;
+                return "";
             }
             else if (shape == "O") {
                 return "TUBE " + id + " MNO " + material.id
-                                    + " D " + Math.Truncate(diameter * 1000)        
-                                    + " T " + Math.Truncate(thickness * 1000);
+                                    + " D "   + diameter.ToString("F0")        
+                                    + " T "   + thickness.ToString("F0");
             }
             else if (shape == "[]") {
-                return "SREC " + id + " MNO " + material.id 
-                                    + " H " + Math.Truncate(height * 1000)
-                                    + " B " + Math.Truncate(thickness * 1000)
-                                    + " HO " + Math.Truncate(upperThick * 1000)
-                                    + " BO " + Math.Truncate(upperWidth * 1000);
+                return "SREC " + id + " MNO " + material.id
+                                    + " H "   + height.ToString("F0")
+                                    + " B "   + lowerWidth.ToString("F0");
             }
             else if (shape == "I") {
-                return "SREC " + id + " MNO " + material.id;
+                return "SECT " + id + " MNO " + material.id;
             }
             return "";
         }
