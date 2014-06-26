@@ -74,26 +74,26 @@ namespace GhToSofistik.Classes {
             // Sofistik wants millimeters
             if (shape == "V") {
                 return "SECT " + id + " MNO " + material.id
-                               + "\nPLAT 1 " + (-upperWidth / 2) + " "
-                                             + height + " "
-                                             + (upperWidth / 2) + " "
-                                             + height + " " 
-                                             + "T 10"
-                               + "\n2 " + (upperWidth / 2) + " "
-                                        + height + " "
-                                        + (upperWidth / 2) + " "
-                                        + 0 + " " 
-                                        + "T 10"
-                               + "\n3 " + (upperWidth / 2) + " "
-                                        + 0 + " "
-                                        + (-upperWidth / 2) + " "
-                                        + 0 + " "
-                                        + "T 10"
-                               + "\n4 " + (-upperWidth / 2) + " "
-                                        + 0 + " "
-                                        + (-upperWidth / 2) + " "
-                                        + height + " "
-                                        + "T 10";
+                               + "\nPLAT NO 1 YB " + (-upperWidth / 2)
+                                          + " ZB " + height
+                                          + " YE " + (upperWidth / 2)
+                                          + " ZE " + height 
+                                          + " T 10"
+                               + "\nNO 2 YB " + (upperWidth / 2)
+                                     + " ZB " + height
+                                     + " YE " + (upperWidth / 2)
+                                     + " ZE " + 0 
+                                     + " T 10"
+                               + "\nNO 3 YB " + (upperWidth / 2)
+                                     + " ZB " + 0
+                                     + " YE " + (-upperWidth / 2)
+                                     + " ZE " + 0
+                                     + " T 10"
+                               + "\nNO 4 YB " + (-upperWidth / 2)
+                                     + " ZB " + 0
+                                     + " YE " + (-upperWidth / 2)
+                                     + " ZE " + height
+                                     + " T 10";
             }
             else if (shape == "O") {
                 return "TUBE " + id + " MNO " + material.id
@@ -109,31 +109,31 @@ namespace GhToSofistik.Classes {
             }
             else if (shape == "I") {
                 return "SECT " + id + " MNO " + material.id
-                               + "\nPLAT 1 " + (-upperWidth / 2) + " "
-                                             + (height - upperThick / 2) + " "
-                                             + 0 + " "
-                                             + (height - upperThick / 2) + " "
-                                             + "T " + upperThick
-                               + "\n2 " + 0 + " "
-                                        + (height - upperThick / 2) + " "
-                                        + (upperWidth / 2) + " "
-                                        + (height - upperThick / 2) + " "
-                                        + "T " + upperThick
-                               + "\n3 " + 0 + " "
-                                        + (height - upperThick / 2) + " "
-                                        + 0 + " "
-                                        + (lowerThick / 2) + " "
-                                        + "T " + webThick
-                               + "\n4 " + (-lowerWidth/ 2) + " "
-                                        + (lowerThick / 2) + " "
-                                        + 0 + " "
-                                        + (lowerThick / 2) + " "
-                                        + "T " + lowerThick
-                               + "\n5 " + 0 + " "
-                                        + (lowerThick / 2) + " "
-                                        + (lowerWidth / 2) + " "
-                                        + (lowerThick / 2) + " "
-                                        + "T " + lowerThick;
+                               + "\nPLAT NO 1 YB " + (-upperWidth / 2)
+                                          + " ZB " + (height - upperThick / 2)
+                                          + " YE " + 0
+                                          + " ZE " + (height - upperThick / 2)
+                                          + " T " + upperThick
+                               + "\nNO 2 YB " + 0
+                                     + " ZB " + (height - upperThick / 2)
+                                     + " YE " + (upperWidth / 2)
+                                     + " ZE " + (height - upperThick / 2)
+                                     + " T " + upperThick
+                               + "\nNO 3 YB " + 0
+                                     + " ZB " + (height - upperThick / 2)
+                                     + " YE " + 0
+                                     + " ZE " + (lowerThick / 2)
+                                     + " T " + webThick
+                               + "\nNO 4 YB " + (-lowerWidth / 2)
+                                     + " ZB " + (lowerThick / 2)
+                                     + " YE " + 0
+                                     + " ZE " + (lowerThick / 2)
+                                     + " T " + lowerThick
+                               + "\nNO 5 YB " + 0
+                                     + " ZB " + (lowerThick / 2)
+                                     + " YE " + (lowerWidth / 2)
+                                     + " ZE " + (lowerThick / 2)
+                                     + " T " + lowerThick;
             }
             return "";
         }
