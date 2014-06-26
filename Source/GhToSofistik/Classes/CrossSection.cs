@@ -8,17 +8,28 @@ namespace GhToSofistik.Classes {
         public int id;
         public List<string> ids; // Elements to apply to
         public string shape;     // Available: O, [], V, I
-        public double diameter, thickness, height, upperWidth, lowerWidth, upperThick, lowerThick, sWallThick, webThick, filletRadius;
+        public double diameter, thickness, height, 
+                      upperWidth, lowerWidth, upperThick, lowerThick, 
+                      sWallThick, webThick, filletRadius;
         public string name;
         public Material material;
         
         public CrossSection(Karamba.CrossSections.CroSec crosec = null) {
-            id = 1;
-            ids = new List<string>();
-            diameter = thickness = height = upperWidth = lowerWidth = upperThick = lowerThick = sWallThick = webThick = filletRadius = 0;
-            shape = "";
-            name = "";
+            id       = 1;
+            ids      = new List<string>();
+            shape    = "";
+            name     = "";
             material = new Material();
+            diameter = thickness 
+                     = height 
+                     = upperWidth 
+                     = lowerWidth 
+                     = upperThick 
+                     = lowerThick 
+                     = sWallThick 
+                     = webThick 
+                     = filletRadius 
+                     = 0;
 
             if(crosec != null)
                 hydrate(crosec);
@@ -31,31 +42,31 @@ namespace GhToSofistik.Classes {
             shape = crosec.shape();
 
             if (shape == "V") {
-                height = (double) crosec.dims[0] * 1000;
-                upperWidth = (double) crosec.dims[2] * 1000;
-                lowerWidth = (double) crosec.dims[4] * 1000;
+                height       = Math.Round((double) crosec.dims[0] * 1000, 3);
+                upperWidth   = Math.Round((double) crosec.dims[2] * 1000, 3);
+                lowerWidth   = Math.Round((double) crosec.dims[4] * 1000, 3);
             }
             else if (shape == "O") {
-                diameter = (double) crosec.dims[0] * 1000;
-                thickness = (double) crosec.dims[1] * 1000;
+                diameter     = Math.Round((double) crosec.dims[0] * 1000, 3);
+                thickness    = Math.Round((double) crosec.dims[1] * 1000, 3);
             }
             else if (shape == "[]") {
-                height = (double) crosec.dims[0] * 1000;
-                sWallThick = (double) crosec.dims[1] * 1000;
-                upperWidth = (double) crosec.dims[2] * 1000;
-                upperThick = (double) crosec.dims[3] * 1000;
-                lowerWidth = (double) crosec.dims[4] * 1000;
-                lowerThick = (double) crosec.dims[5] * 1000;
-                filletRadius = (double) crosec.dims[6] * 1000;
+                height       = Math.Round((double) crosec.dims[0] * 1000, 3);
+                sWallThick   = Math.Round((double) crosec.dims[1] * 1000, 3);
+                upperWidth   = Math.Round((double) crosec.dims[2] * 1000, 3);
+                upperThick   = Math.Round((double) crosec.dims[3] * 1000, 3);
+                lowerWidth   = Math.Round((double) crosec.dims[4] * 1000, 3);
+                lowerThick   = Math.Round((double) crosec.dims[5] * 1000, 3);
+                filletRadius = Math.Round((double) crosec.dims[6] * 1000, 3);
             }
             else if (shape == "I") {
-                height = (double) crosec.dims[0] * 1000;
-                webThick = (double) crosec.dims[1] * 1000;
-                upperWidth = (double) crosec.dims[2] * 1000;
-                upperThick = (double) crosec.dims[3] * 1000;
-                lowerWidth = (double) crosec.dims[4] * 1000;
-                lowerThick = (double) crosec.dims[5] * 1000;
-                filletRadius = (double) crosec.dims[6] * 1000;
+                height       = Math.Round((double) crosec.dims[0] * 1000, 3);
+                webThick     = Math.Round((double) crosec.dims[1] * 1000, 3);
+                upperWidth   = Math.Round((double) crosec.dims[2] * 1000, 3);
+                upperThick   = Math.Round((double) crosec.dims[3] * 1000, 3);
+                lowerWidth   = Math.Round((double) crosec.dims[4] * 1000, 3);
+                lowerThick   = Math.Round((double) crosec.dims[5] * 1000, 3);
+                filletRadius = Math.Round((double) crosec.dims[6] * 1000, 3);
             }
         }
 
@@ -63,100 +74,100 @@ namespace GhToSofistik.Classes {
             // Sofistik wants millimeters
             if (shape == "V") {
                 return "SECT " + id + " MNO " + material.id
-                               + "\nPLAT 1 " + (-upperWidth / 2).ToString("F0") + " "
-                                             + height.ToString("F0") + " "
-                                             + (upperWidth / 2).ToString("F0") + " "
-                                             + height.ToString("F0") + " " 
+                               + "\nPLAT 1 " + (-upperWidth / 2) + " "
+                                             + height + " "
+                                             + (upperWidth / 2) + " "
+                                             + height + " " 
                                              + "T 10"
-                               + "\n2 " + (upperWidth / 2).ToString("F0") + " "
-                                        + height.ToString("F0") + " "
-                                        + (upperWidth / 2).ToString("F0") + " "
+                               + "\n2 " + (upperWidth / 2) + " "
+                                        + height + " "
+                                        + (upperWidth / 2) + " "
                                         + 0 + " " 
                                         + "T 10"
-                               + "\n3 " + (upperWidth / 2).ToString("F0") + " "
+                               + "\n3 " + (upperWidth / 2) + " "
                                         + 0 + " "
-                                        + (-upperWidth / 2).ToString("F0") + " "
+                                        + (-upperWidth / 2) + " "
                                         + 0 + " "
                                         + "T 10"
-                               + "\n4 " + (-upperWidth / 2).ToString("F0") + " "
+                               + "\n4 " + (-upperWidth / 2) + " "
                                         + 0 + " "
-                                        + (-upperWidth / 2).ToString("F0") + " "
-                                        + height.ToString("F0") + " "
+                                        + (-upperWidth / 2) + " "
+                                        + height + " "
                                         + "T 10";
             }
             else if (shape == "O") {
                 return "TUBE " + id + " MNO " + material.id
-                                    + " D "   + diameter.ToString("F0")        
-                                    + " T "   + thickness.ToString("F0");
+                                    + " D "   + diameter        
+                                    + " T "   + thickness;
             }
             else if (shape == "[]") {
                 return "SREC " + id + " MNO " + material.id
-                                    + " H "   + height.ToString("F0")
-                                    + " HO "  + Math.Max(lowerThick, upperThick).ToString("F0")
-                                    + " B "   + lowerWidth.ToString("F0")
-                                    + " BO "  + upperWidth.ToString("F0");
+                                    + " H "   + height
+                                    + " HO "  + Math.Max(lowerThick, upperThick)
+                                    + " B "   + lowerWidth
+                                    + " BO "  + upperWidth;
             }
             else if (shape == "I") {
                 return "SECT " + id + " MNO " + material.id
-                               + "\nPLAT 1 " + (-upperWidth / 2).ToString("F0") + " " 
-                                             + height.ToString("F0") + " " 
-                                             + (upperWidth / 2).ToString("F0") + " "
-                                             + height.ToString("F0") + " "
+                               + "\nPLAT 1 " + (-upperWidth / 2) + " " 
+                                             + height + " " 
+                                             + (upperWidth / 2) + " "
+                                             + height + " "
                                              + "T 10"
-                               + "\n2 "  + (upperWidth / 2).ToString("F0") + " "
-                                         + height.ToString("F0") + " "
-                                         + (upperWidth / 2).ToString("F0") + " "
-                                         + (height - upperThick).ToString("F0") + " "
+                               + "\n2 "  + (upperWidth / 2) + " "
+                                         + height + " "
+                                         + (upperWidth / 2) + " "
+                                         + (height - upperThick) + " "
                                          + "T 10"
-                               + "\n3 "  + (upperWidth / 2).ToString("F0") + " "
-                                         + (height - upperThick).ToString("F0") + " "
-                                         + (webThick / 2).ToString("F0") + " "
-                                         + (height - upperThick).ToString("F0") + " "
+                               + "\n3 "  + (upperWidth / 2) + " "
+                                         + (height - upperThick) + " "
+                                         + (webThick / 2) + " "
+                                         + (height - upperThick) + " "
                                          + "T 10"
-                               + "\n4 "  + (webThick / 2).ToString("F0") + " "
-                                         + (height - upperThick).ToString("F0") + " "
-                                         + (webThick / 2).ToString("F0") + " "
-                                         + lowerThick.ToString("F0") + " "
+                               + "\n4 "  + (webThick / 2) + " "
+                                         + (height - upperThick) + " "
+                                         + (webThick / 2) + " "
+                                         + lowerThick + " "
                                          + "T 10"
-                               + "\n5 "  + (webThick / 2).ToString("F0") + " "
-                                         + lowerThick.ToString("F0") + " "
-                                         + (lowerWidth / 2).ToString("F0") + " "
-                                         + lowerThick.ToString("F0") + " "
+                               + "\n5 "  + (webThick / 2) + " "
+                                         + lowerThick + " "
+                                         + (lowerWidth / 2) + " "
+                                         + lowerThick + " "
                                          + "T 10"
-                               + "\n6 "  + (lowerWidth / 2).ToString("F0") + " "
-                                         + lowerThick.ToString("F0") + " "
-                                         + (lowerWidth / 2).ToString("F0") + " "
+                               + "\n6 "  + (lowerWidth / 2) + " "
+                                         + lowerThick + " "
+                                         + (lowerWidth / 2) + " "
                                          + 0 + " "
                                          + "T 10"
-                               + "\n7 "  + (lowerWidth / 2).ToString("F0") + " "
+                               + "\n7 "  + (lowerWidth / 2) + " "
                                          + 0 + " "
-                                         + (-lowerWidth / 2).ToString("F0") + " "
+                                         + (-lowerWidth / 2) + " "
                                          + 0 + " "
                                          + "T 10"
-                               + "\n8 "  + (-lowerWidth / 2).ToString("F0") + " "
+                               + "\n8 "  + (-lowerWidth / 2) + " "
                                          + 0 + " "
-                                         + (-lowerWidth / 2).ToString("F0") + " "
-                                         + lowerThick.ToString("F0") + " "
+                                         + (-lowerWidth / 2) + " "
+                                         + lowerThick + " "
                                          + "T 10"
-                               + "\n9 "  + (-lowerWidth / 2).ToString("F0") + " "
-                                         + lowerThick.ToString("F0") + " "
-                                         + (-webThick / 2).ToString("F0") + " "
-                                         + lowerThick.ToString("F0") + " "
+                               + "\n9 "  + (-lowerWidth / 2) + " "
+                                         + lowerThick + " "
+                                         + (-webThick / 2) + " "
+                                         + lowerThick + " "
                                          + "T 10"
-                               + "\n10 " + (-webThick / 2).ToString("F0") + " "
-                                         + lowerThick.ToString("F0") + " "
-                                         + (-webThick / 2).ToString("F0") + " "
-                                         + (height - upperThick).ToString("F0") + " "
+                               + "\n10 " + (-webThick / 2) + " "
+                                         + lowerThick + " "
+                                         + (-webThick / 2) + " "
+                                         + (height - upperThick) + " "
                                          + "T 10"
-                               + "\n11 " + (-webThick / 2).ToString("F0") + " "
-                                         + (height - upperThick).ToString("F0") + " "
-                                         + (-upperWidth / 2).ToString("F0") + " "
-                                         + (height - upperThick).ToString("F0") + " "
+                               + "\n11 " + (-webThick / 2) + " "
+                                         + (height - upperThick) + " "
+                                         + (-upperWidth / 2) + " "
+                                         + (height - upperThick) + " "
                                          + "T 10"
-                               + "\n12 " + (-upperWidth / 2).ToString("F0") + " "
-                                         + (height - upperThick).ToString("F0") + " "
-                                         + (-upperWidth / 2).ToString("F0") + " "
-                                         + height.ToString("F0") + " "
+                               + "\n12 " + (-upperWidth / 2) + " "
+                                         + (height - upperThick) + " "
+                                         + (-upperWidth / 2) + " "
+                                         + height + " "
                                          + "T 10";
             }
             return "";
@@ -204,7 +215,6 @@ namespace GhToSofistik.Classes {
                     return true;
                 }
             }
-
             return false;
         }
     }
