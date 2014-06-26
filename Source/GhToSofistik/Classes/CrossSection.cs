@@ -62,7 +62,17 @@ namespace GhToSofistik.Classes {
         public string sofistring() {
             // Sofistik wants millimeters
             if (shape == "V") {
-                return "";
+                return "SECT " + id + " MNO " + material.id
+                               + "\nPLAT 1 " + (-upperWidth / 2).ToString("F0") + " " + height.ToString("F0")
+                                             + " " + (upperWidth / 2).ToString("F0") + " " + height.ToString("F0") 
+                                             + " T 10"
+                               + "\n2 " + (upperWidth / 2).ToString("F0") + " " + height.ToString("F0")
+                                        + " " + (upperWidth / 2).ToString("F0") + " 0 T 10"
+                               + "\n3 " + (upperWidth / 2).ToString("F0") + " 0 "
+                                        + (-upperWidth / 2).ToString("F0") + " 0 T 10"
+                               + "\n4 " + (-upperWidth / 2).ToString("F0") + " 0 "
+                                        + (-upperWidth / 2).ToString("F0") + " " + height.ToString("F0")
+                                        + " T 10";
             }
             else if (shape == "O") {
                 return "TUBE " + id + " MNO " + material.id
