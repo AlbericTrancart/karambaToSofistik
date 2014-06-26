@@ -92,7 +92,9 @@ namespace GhToSofistik.Classes {
             else if (shape == "[]") {
                 return "SREC " + id + " MNO " + material.id
                                     + " H "   + height.ToString("F0")
-                                    + " B "   + lowerWidth.ToString("F0");
+                                    + " HO "  + Math.Max(lowerThick, upperThick).ToString("F0")
+                                    + " B "   + lowerWidth.ToString("F0")
+                                    + " BO "  + upperWidth.ToString("F0");
             }
             else if (shape == "I") {
                 return "SECT " + id + " MNO " + material.id
