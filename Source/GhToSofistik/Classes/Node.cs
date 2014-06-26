@@ -19,17 +19,17 @@ namespace GhToSofistik.Classes {
         }
 
         public void hydrate(Karamba.Nodes.Node node) {
-            x = node.pos.X;
-            y = node.pos.Y;
-            z = node.pos.Z;
+            x = Math.Round(node.pos.X, 3);
+            y = Math.Round(node.pos.Y, 3);
+            z = Math.Round(node.pos.Z, 3);
             id = node.ind + 1; //Sofistik begins at 1 not 0
         }
 
         public string sofistring() {
             string sofi = "";
-            sofi += "NODE NO " + id + " X " + x.ToString("F3")
-                                    + " Y " + y.ToString("F3")
-                                    + " Z " + z.ToString("F3"); //We only want three decimals
+            sofi += "NODE NO " + id + " X " + x
+                                    + " Y " + y
+                                    + " Z " + z;
 
             if (constraints.Count != 0) {
                 sofi += " FIX ";
