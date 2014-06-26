@@ -11,9 +11,13 @@ namespace GhToSofistik.Classes {
         string name;
 
         public Material(Karamba.Materials.FemMaterial material = null) {
-            ids = new List<string>();
-            id = 1;
-            E = G = gamma = alphaT = fy = 0;
+            ids  = new List<string>();
+            id   = 1;
+            E    = G 
+                 = gamma 
+                 = alphaT 
+                 = fy 
+                 = 0;
             name = "";
 
             if (material != null)
@@ -21,23 +25,23 @@ namespace GhToSofistik.Classes {
         }
 
         public void hydrate(Karamba.Materials.FemMaterial material) {
-            id = (int) material.ind + 1; //Sofistik begins at 1 not 0
-            ids = material.elemIds;
-            E = material.E / 1000;
-            G = material.G / 1000;
-            gamma = material.gamma;
-            alphaT = material.alphaT;
-            fy = material.fy / 1000;
-            name = material.name;
+            id     = (int) material.ind + 1; //Sofistik begins at 1 not 0
+            ids    = material.elemIds;
+            E      = Math.Round(material.E / 1000, 3);
+            G      = Math.Round(material.G / 1000, 3);
+            gamma  = Math.Round(material.gamma, 3);
+            alphaT = Math.Round(material.alphaT, 3);
+            fy     = Math.Round(material.fy / 1000, 3);
+            name   = material.name;
         }
 
         public string sofistring() {
             // We need not to forget ton convert into units used by Sofistik
-            return "STEE NO " + id + " ES "   + E.ToString("F")
-                                   + " GAM "  + gamma.ToString("F")
-                                   + " ALFA " + alphaT.ToString("F")
-                                   + " GMOD " + G.ToString("F")
-                                   + " FY "   + fy.ToString("F");
+            return "STEE NO " + id + " ES "   + E
+                                   + " GAM "  + gamma
+                                   + " ALFA " + alphaT
+                                   + " GMOD " + G
+                                   + " FY "   + fy;
         }
 
         //Check if "test" is a duplicate of this material - necessary because karamba adds preset materials
