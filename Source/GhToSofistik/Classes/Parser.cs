@@ -11,7 +11,7 @@ namespace GhToSofistik.Classes {
             file = "";
             
             // AQUA definitions
-            file += "+PROG AQUA urs:1\nHEAD Material and cross section definitions\n\n";
+            file += "+PROG AQUA urs:1\nHEAD Material and cross section definitions\nPAGE UNII 6\n\n";
 
             foreach (Material material in materials) {
                 if(material.sofistring() != "")
