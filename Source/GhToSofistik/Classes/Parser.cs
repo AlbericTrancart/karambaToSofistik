@@ -66,8 +66,8 @@ namespace GhToSofistik.Classes {
                             else {
                                 // Clusterized definition
                                 file += "BEAM NO (" + cluster_start + " " + (cluster_start + iterator - 1) + " 1)"
-                                      + " NA (" + node_start + " " + (node_start + iterator - 1) + " 1)"
-                                      + " NE (" + node_end + " " + (node_end + iterator - 1) + " 1)"
+                                      + " NA (" + node_start + " 1)"
+                                      + " NE (" + node_end + " 1)"
                                       + " NCS " + crosec + "\n";
                             }
                             
