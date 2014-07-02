@@ -168,6 +168,14 @@ namespace GhToSofistik {
                             loads.Add(current);
                         }
                     }
+
+                    // Karamba duplicates line loads if beam id is not defined
+                    for (int i = 0; i < loads.Count; i++) {
+                        loads.RemoveAll(delegate(Load test_load) {
+                            return test_load != loads[i] && loads[i].duplicate(test_load);
+                        });
+                    }
+
                     status += model.eloads.Count + " line loads added.\n";
 
                     // ID matching

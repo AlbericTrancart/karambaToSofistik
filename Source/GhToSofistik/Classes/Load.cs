@@ -57,13 +57,35 @@ namespace GhToSofistik.Classes {
                                      + " P1 " + force.X.ToString("F0")
                                      + " P2 " + force.Y.ToString("F0")
                                      + " P3 " + force.Z.ToString("F0");
-            else if (type == "E")
-                return "LC NO " + id + " TYPE L\nBEAM FROM GRP " + GhToSofistikComponent.beam_groups.IndexOf(beam_id)
+            else if (type == "E") {
+                string from = "";
+                if (beam_id == "")
+                    from = "1 TO 999999";
+                else
+                    from = "GRP " + GhToSofistikComponent.beam_groups.IndexOf(beam_id);
+
+                return "LC NO " + id + " TYPE L\nBEAM FROM " + from
                                      + " TYPE " + ((orientation == 1) ? "PXX,PYY,PZZ" : "PX,PY,PZ")
-                                     + " PA "   + force.X.ToString("F0") 
-                                     + ","      + force.Y.ToString("F0") 
-                                     + ","      + force.Z.ToString("F0");
+                                     + " PA " + force.X.ToString("F0")
+                                     + "," + force.Y.ToString("F0")
+                                     + "," + force.Z.ToString("F0");
+            }
+
             return "";
+        }
+
+        // Karamba creates duplicates for element loads if beam ids are not precised
+        public bool duplicate(Load test) {
+            if (beam_id == "" 
+                    && test.beam_id == ""
+                    && type == "E"
+                    && test.type == "E"
+                    && force == test.force 
+                    && orientation == test.orientation
+                ) {
+                return true;
+            }
+            return false;
         }
     }
 }
