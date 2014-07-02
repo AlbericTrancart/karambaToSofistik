@@ -8,7 +8,7 @@ namespace GhToSofistik.Classes {
     class Beam {
         public int id;
         public string user_id;
-        public List<int> ids; // Elements to apply to
+        public List<int> ids;
         public Node start;
         public Node end;
         public CrossSection sec;
@@ -30,6 +30,10 @@ namespace GhToSofistik.Classes {
             id = beam.ind + 1;  //Sofistik begins at 1 not 0
             ids = beam._node_inds;
             user_id = beam.id;
+
+            if(!GhToSofistikComponent.beam_groups.Contains(beam.id))
+                GhToSofistikComponent.beam_groups.Add(beam.id);
+            
             color = beam.color;
         }
 

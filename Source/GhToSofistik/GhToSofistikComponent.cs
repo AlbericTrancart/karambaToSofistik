@@ -32,6 +32,9 @@ namespace GhToSofistik {
             pManager.Register_StringParam("Status", "Status", "Errors or success messages");
         }
 
+        // We need to register all groups defined in Grasshopper
+        static public List<string> beam_groups = new List<string>();
+
         // This is the method that actually does the work.
         protected override void SolveInstance(IGH_DataAccess DA) {
             // Some variables

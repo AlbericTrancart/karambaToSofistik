@@ -29,9 +29,14 @@ namespace GhToSofistik.Classes {
             foreach (Node node in nodes) {
                 file += node.sofistring() + "\n";
             }
-            file += "\n";
-            foreach (Beam beam in beams) {
-                file += beam.sofistring() + "\n";
+
+            // Special addition of beam: we must define groups
+            foreach (string group in GhToSofistikComponent.beam_groups) {
+                file += "\nGRP " + GhToSofistikComponent.beam_groups.IndexOf(group) + ";\n";
+                foreach (Beam beam in beams) {
+                    if(beam.user_id == group)
+                        file += beam.sofistring() + "\n";
+                }
             }
 
             // SOFILOAD definitions
