@@ -9,6 +9,7 @@ namespace GhToSofistik.Classes {
         static public int id_count = 1; //Karamba does not provide IDs so we must create one
         public int id;
         public Beam beam;               // Element to apply to for element load
+        public string beam_id;
         public int orientation;         // Local (0), global (1) or projeted (2) orientation for element loads
         public Node node;               // For Point Loads
         public string type;             // Valid types are "G, P, E" for Gravity, Point and Element Load
@@ -37,6 +38,7 @@ namespace GhToSofistik.Classes {
 
         public void hydrate(Karamba.Loads.UniformlyDistLoad load) {
             orientation = (int) load.q_orient;
+            beam_id = load.beamId;
             force = load.Load;
         }
 
@@ -47,8 +49,8 @@ namespace GhToSofistik.Classes {
             if (type == "G")
                 return "LC NO " + id + " TYPE P\nBEAM FROM 1 TO 999999 TYPE PXX,PYY,PZZ" 
                                      + " PA " + force.X.ToString("F0")
-                                     + " , "  + force.Y.ToString("F0")
-                                     + " , "  + force.Z.ToString("F0");
+                                     + ","  + force.Y.ToString("F0")
+                                     + ","  + force.Z.ToString("F0");
             else if (type == "P")
                 return "LC NO " + id + " TYPE L\nNODE NO " + node.id
                                      + " TYPE PP"
@@ -56,7 +58,7 @@ namespace GhToSofistik.Classes {
                                      + " P2 " + force.Y.ToString("F0")
                                      + " P3 " + force.Z.ToString("F0");
             else if (type == "E")
-                return "LC NO " + id + " TYPE L\nBEAM " + beam.id
+                return "LC NO " + id + " TYPE L\nBEAM FROM GRP " + GhToSofistikComponent.beam_groups.IndexOf(beam_id)
                                      + " TYPE " + ((orientation == 1) ? "PXX,PYY,PZZ" : "PX,PY,PZ")
                                      + " PA "   + force.X.ToString("F0") 
                                      + ","      + force.Y.ToString("F0") 
