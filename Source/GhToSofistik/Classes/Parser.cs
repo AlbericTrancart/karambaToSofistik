@@ -31,11 +31,51 @@ namespace GhToSofistik.Classes {
             }
 
             // Special addition of beam: we must define groups
+            int cluster_start, node_start, node_end, crosec; 
+            cluster_start = node_start = node_end = crosec = 1;
+            int iterator = 0;
+
             foreach (string group in GhToSofistikComponent.beam_groups) {
                 file += "\nGRP " + GhToSofistikComponent.beam_groups.IndexOf(group) + ";\n";
                 foreach (Beam beam in beams) {
-                    if(beam.user_id == group)
-                        file += beam.sofistring() + "\n";
+                    // Output one group after the other
+                    if (beam.user_id == group) {
+                        // Beams are automatically ordered by their ID, therefore it is simple to clear the syntax by defining them in clusters
+
+                        if (iterator == 0) {
+                            // Start a new cluster
+                            cluster_start = beam.id;
+                            node_start = beam.start.id;
+                            node_end = beam.end.id;
+                            crosec = beam.sec.id;
+                            iterator = 1;
+                            continue;
+                        }
+                        
+                        // Check if we are moving into another cluster
+                        if(beam.id != cluster_start + iterator
+                            || beam.start.id != node_start + iterator
+                            || beam.end.id != node_end + iterator
+                            || beam.sec.id != crosec) {
+
+                            // End the cluster and print it
+                            if(iterator == 1){
+                                // Normal beam
+                                file += beam.sofistring() + "\n";
+                            }
+                            else {
+                                // Clusterized definition
+                                file += "BEAM NO (" + cluster_start + " " + (cluster_start + iterator - 1) + " 1)"
+                                      + " NA (" + node_start + " 1)"
+                                      + " NE (" + node_end + " 1)"
+                                      + " NCS " + crosec + "\n";
+                            }
+                            iterator = 0;
+                        }
+                        else {
+                            iterator++;
+                        }
+                    }
                 }
             }
 
