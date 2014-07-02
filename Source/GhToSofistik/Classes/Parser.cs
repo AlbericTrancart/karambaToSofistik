@@ -34,6 +34,7 @@ namespace GhToSofistik.Classes {
             int cluster_start, node_start, node_end, crosec; 
             cluster_start = node_start = node_end = crosec = 1;
             int iterator = 0;
+            Beam last_beam = new Beam();
 
             foreach (string group in GhToSofistikComponent.beam_groups) {
                 file += "\nGRP " + GhToSofistikComponent.beam_groups.IndexOf(group) + ";\n";
@@ -42,6 +43,7 @@ namespace GhToSofistik.Classes {
                     if (beam.user_id == group) {
                         // Beams are automatically ordered by their ID, therefore it is simple to clear the syntax by defining them in clusters
 
+                        last_beam = beam;
                         if (iterator == 0) {
                             // Start a new cluster
                             cluster_start = beam.id;
@@ -71,7 +73,7 @@ namespace GhToSofistik.Classes {
                                       + " NCS " + crosec + "\n";
                             }
                             
-                            //Start a new cluster
+                            // Start a new cluster
                             cluster_start = beam.id;
                             node_start = beam.start.id;
                             node_end = beam.end.id;
@@ -83,6 +85,19 @@ namespace GhToSofistik.Classes {
                             iterator++;
                         }
                     }
+                }
+
+                // Print the last cluster
+                if (iterator == 1) {
+                    // Normal beam
+                    file += last_beam.sofistring() + "\n";
+                }
+                else {
+                    // Clusterized definition
+                    file += "BEAM NO (" + cluster_start + " " + (cluster_start + iterator - 1) + " 1)"
+                          + " NA (" + node_start + " 1)"
+                          + " NE (" + node_end + " 1)"
+                          + " NCS " + crosec + "\n";
                 }
             }
 
