@@ -64,8 +64,16 @@ namespace GhToSofistik.Classes {
                 else
                     from = "GRP " + GhToSofistikComponent.beam_groups.IndexOf(beam_id);
 
+                string load_type = "";
+                if (orientation == 0)
+                    load_type = "PX,PY,PZ";
+                else if (orientation == 2)
+                    load_type = "PXP,PYP,PZP";
+                else
+                    load_type = "PXX, PYY, PZZ";
+
                 return "LC NO " + id + " TYPE L\nBEAM FROM " + from
-                                     + " TYPE " + ((orientation == 1) ? "PXX,PYY,PZZ" : "PX,PY,PZ")
+                                     + " TYPE " + load_type
                                      + " PA " + force.X.ToString("F0")
                                      + "," + force.Y.ToString("F0")
                                      + "," + force.Z.ToString("F0");
