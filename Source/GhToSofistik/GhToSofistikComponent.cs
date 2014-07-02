@@ -74,7 +74,9 @@ namespace GhToSofistik {
 
                     // Materials
                     foreach (Karamba.Materials.FemMaterial material in model.materials) {
-                        materials.Add(new Material(material));
+                        // The first material seems to be wong but I don't know why it exists
+                        if(model.materials.IndexOf(material) != 0)
+                            materials.Add(new Material(material));
                     }
 
                     /*Disabled for forward compatibility

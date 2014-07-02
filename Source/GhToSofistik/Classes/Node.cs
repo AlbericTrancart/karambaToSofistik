@@ -22,7 +22,7 @@ namespace GhToSofistik.Classes {
             x = Math.Round(node.pos.X, 3);
             y = Math.Round(node.pos.Y, 3);
             z = Math.Round(node.pos.Z, 3);
-            id = node.ind + 1; //Sofistik begins at 1 not 0
+            id = node.ind + 1; // Sofistik begins at 1 not 0
         }
 
         public string sofistring() {

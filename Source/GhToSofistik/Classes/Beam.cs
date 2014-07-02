@@ -27,7 +27,7 @@ namespace GhToSofistik.Classes {
         }
 
         public void hydrate(Karamba.Elements.ModelElement beam) {
-            id = beam.ind + 1;  //Sofistik begins at 1 not 0
+            id = beam.ind + 1; // Sofistik begins at 1 not 0
             ids = beam._node_inds;
             user_id = beam.id;
 

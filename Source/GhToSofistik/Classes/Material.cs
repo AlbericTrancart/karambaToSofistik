@@ -25,7 +25,7 @@ namespace GhToSofistik.Classes {
         }
 
         public void hydrate(Karamba.Materials.FemMaterial material) {
-            id     = (int) material.ind + 1; //Sofistik begins at 1 not 0
+            id = (int) material.ind; // We do not add 1 as for other elements because the first material being corrupted we need to delete it, i.e starting id counting 1 lower. id + 1 - 1 = id.
             ids    = material.elemIds;
             E      = Math.Round(material.E / 1000, 3);
             G      = Math.Round(material.G / 1000, 3);
