@@ -66,11 +66,18 @@ namespace GhToSofistik.Classes {
                             else {
                                 // Clusterized definition
                                 file += "BEAM NO (" + cluster_start + " " + (cluster_start + iterator - 1) + " 1)"
-                                      + " NA (" + node_start + " 1)"
-                                      + " NE (" + node_end + " 1)"
+                                      + " NA (" + node_start + " " + (node_start + iterator - 1) + " 1)"
+                                      + " NE (" + node_end + " " + (node_end + iterator - 1) + " 1)"
                                       + " NCS " + crosec + "\n";
                             }
-                            iterator = 0;
+                            
+                            //Start a new cluster
+                            cluster_start = beam.id;
+                            node_start = beam.start.id;
+                            node_end = beam.end.id;
+                            crosec = beam.sec.id;
+                            iterator = 1;
+                            continue;
                         }
                         else {
                             iterator++;
@@ -86,7 +93,7 @@ namespace GhToSofistik.Classes {
             }
 
             // Analysis
-            file += "END\n\n+PROG ASE urs:13\nHEAD Solving\n\nSYST PROB LINE\nLC ALL\n\nEND\n";
+            file += "\nEND\n\n+PROG ASE urs:13\nHEAD Solving\n\nSYST PROB LINE\nLC ALL\n\nEND\n";
         }
     }
 }
