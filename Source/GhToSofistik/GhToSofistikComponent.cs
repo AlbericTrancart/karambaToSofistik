@@ -151,19 +151,36 @@ namespace GhToSofistik {
                         loads.Add(current);
                     }
                     status += model.ploads.Count + " point loads added.\n";
+                    
+                    foreach (Karamba.Loads.ElementLoad load in model.eloads) {
+                        // Create a load variable base on the load type
+                        Load current = new Load();
 
-                    foreach (Karamba.Loads.UniformlyDistLoad load in model.eloads) {
-                        //If there is not target element, apply the load to the whole structure
+                        Karamba.Loads.UniformlyDistLoad line = load as Karamba.Loads.UniformlyDistLoad;
+                        Karamba.Loads.PreTensionLoad pret = load as Karamba.Loads.PreTensionLoad;
+                        Karamba.Loads.TemperatureLoad temp = load as Karamba.Loads.TemperatureLoad;
+                                
+                        if (line != null) {
+                            current = new Load(line);
+                        }
+                        // Very important to check Temperature BEFORE Pretension becaus Temperature derivates from Pretension
+                        else if (temp != null) {
+                            current = new Load(temp);
+                        }
+                        else if (pret != null) {
+                            current = new Load(pret);
+                        }
+                        
+
+                        // If there is not target element, apply the load to the whole structure
                         if (load.beamId == "") {
                             foreach (Beam beam in beams) {
-                                Load current = new Load(load);
-                                current.beam = beam;
-                                loads.Add(current);
+                                    current.beam = beam;
+                                    loads.Add(current);
                             }
                         }
                         else {
-                            Load current = new Load(load);
-                            //We search the element
+                            // We search the element
                             current.beam = beams.Find(delegate(Beam beam) {
                                 return beam.user_id == load.beamId;
                             });
@@ -185,10 +202,10 @@ namespace GhToSofistik {
                     // Karamba's materials and cross sections are pointing to an element ID
                     // Sofistik's elements need a cross section ID which needs a material ID
                     
-                    foreach(Material material in materials){
-                        //If the IDs list is empty, it means that we want to apply the material to the whole structure (whichi is the default behavior: the default material is set by the constructors of all elements)
+                    foreach (Material material in materials){
+                        // If the IDs list is empty, it means that we want to apply the material to the whole structure (whichi is the default behavior: the default material is set by the constructors of all elements)
                         bool test = false;
-                        foreach(string id in material.ids) {
+                        foreach (string id in material.ids) {
                             if(id != "")
                                 test = true;
                         }

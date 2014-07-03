@@ -14,6 +14,7 @@ namespace GhToSofistik.Classes {
         public Node node;               // For Point Loads
         public string type;             // Valid types are "G, P, E" for Gravity, Point and Element Load
         public Vector3d force;
+        public double coef;             // For pretension and temperature loads
         
 
         public void init(string par_type) {
@@ -24,9 +25,12 @@ namespace GhToSofistik.Classes {
             force = new Vector3d();
         }
 
+        public Load() { init(""); }
         public Load(KeyValuePair<int, Karamba.Loads.GravityLoad> load) { init("G"); hydrate(load.Value); }
         public Load(Karamba.Loads.PointLoad load) { init("P"); hydrate(load); }
         public Load(Karamba.Loads.UniformlyDistLoad load) { init("E"); hydrate(load); }
+        public Load(Karamba.Loads.PreTensionLoad load) { init("S"); hydrate(load); }
+        public Load(Karamba.Loads.TemperatureLoad load) { init("T"); hydrate(load); }
 
         public void hydrate(Karamba.Loads.GravityLoad load) {
             force = load.force;
@@ -42,43 +46,66 @@ namespace GhToSofistik.Classes {
             force = load.Load;
         }
 
+        public void hydrate(Karamba.Loads.PreTensionLoad load) {
+            beam_id = load.beamId;
+            coef = Math.Round(load.EPS0 * 1000, 3);
+        }
+
+        public void hydrate(Karamba.Loads.TemperatureLoad load) {
+            beam_id = load.beamId;
+            coef = Math.Round(load.incT, 3);
+        }
+
         public string sofistring() {
             id = id_count;
             id_count++;
 
-            if (type == "G")
-                return "LC NO " + id + " TYPE P\nBEAM FROM 1 TO 999999 TYPE PXX,PYY,PZZ" 
-                                     + " PA " + force.X.ToString("F0")
-                                     + ","  + force.Y.ToString("F0")
-                                     + ","  + force.Z.ToString("F0");
-            else if (type == "P")
-                return "LC NO " + id + " TYPE L\nNODE NO " + node.id
-                                     + " TYPE PP"
-                                     + " P1 " + force.X.ToString("F0")
-                                     + " P2 " + force.Y.ToString("F0")
-                                     + " P3 " + force.Z.ToString("F0");
-            else if (type == "E") {
-                string from = "";
-                if (beam_id == "")
-                    from = "1 TO 999999";
-                else
-                    from = "GRP " + GhToSofistikComponent.beam_groups.IndexOf(beam_id);
+            switch (type) { 
+                case "G":
+                    return "LC NO " + id + " TYPE P\nBEAM FROM 1 TO 999999 TYPE PXX,PYY,PZZ" 
+                                         + " PA " + force.X.ToString("F0")
+                                         + ","  + force.Y.ToString("F0")
+                                         + ","  + force.Z.ToString("F0");
+                case "P":
+                    return "LC NO " + id + " TYPE L\nNODE NO " + node.id
+                                         + " TYPE PP"
+                                         + " P1 " + force.X.ToString("F0")
+                                         + " P2 " + force.Y.ToString("F0")
+                                         + " P3 " + force.Z.ToString("F0");
+                case "E":
+                case "S":
+                case "T":
+                    string from = "";
+                    if (beam_id == "")
+                        from = "1 TO 999999";
+                    else
+                        from = "GRP " + GhToSofistikComponent.beam_groups.IndexOf(beam_id);
 
-                string load_type = "";
-                if (orientation == 0)
-                    load_type = "PX,PY,PZ";
-                else if (orientation == 2)
-                    load_type = "PXP,PYP,PZP";
-                else
-                    load_type = "PXX, PYY, PZZ";
+                    if (type == "E") {
+                        string load_type = "";
+                        if (orientation == 0)
+                            load_type = "PX,PY,PZ";
+                        else if (orientation == 2)
+                            load_type = "PXP,PYP,PZP";
+                        else
+                            load_type = "PXX, PYY, PZZ";
 
-                return "LC NO " + id + " TYPE L\nBEAM FROM " + from
-                                     + " TYPE " + load_type
-                                     + " PA " + force.X.ToString("F0")
-                                     + "," + force.Y.ToString("F0")
-                                     + "," + force.Z.ToString("F0");
+                        return "LC NO " + id + " TYPE L\nBEAM FROM " + from
+                                             + " TYPE " + load_type
+                                             + " PA " + force.X.ToString("F0")
+                                             + "," + force.Y.ToString("F0")
+                                             + "," + force.Z.ToString("F0");
+                    }
+                    else if(type == "S") {
+                        return "LC NO " + id + " TYPE L\nBEAM FROM " + from
+                                             + " TYPE PNX PA " + coef;
+                    }
+                    else if (type == "T") {
+                        return "LC NO " + id + " TYPE L\nBEAM FROM " + from
+                                             + " TYPE TEMP PA " + coef;
+                    }
+                    break;
             }
-
             return "";
         }
 
