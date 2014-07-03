@@ -5,6 +5,7 @@ using System.Text;
 
 namespace GhToSofistik.Classes {
     class Parser {
+        static public int id_count = 1; // Karamba does not provide IDs for loads so we must create one
         public string file { get; protected set; }
 
         public Parser(List<Material> materials, List<CrossSection> crossSections, List<Node> nodes, List<Beam> beams, List<Load> loads) {

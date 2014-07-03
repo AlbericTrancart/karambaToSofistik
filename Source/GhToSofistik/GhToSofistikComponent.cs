@@ -48,6 +48,9 @@ namespace GhToSofistik {
             List<Beam> beams = new List<Beam>();
             List<Load> loads = new List<Load>();
 
+            // We need to reset some variables because the objects are not freed until Grasshopper is unloaded
+            Parser.id_count = 1;
+
             try {
                 // Load the data from Karamba
 
@@ -55,7 +58,7 @@ namespace GhToSofistik {
                 GH_Model in_gh_model = null;
                 if (!DA.GetData<GH_Model>(0, ref in_gh_model)) return;
                 Model model = in_gh_model.Value;
-                model = (Karamba.Models.Model) model.Clone(); //If the model is not cloned a modification to this variable will imply modification of the input model, thus modifying behavior in other components.
+                model = (Karamba.Models.Model) model.Clone(); // If the model is not cloned a modification to this variable will imply modification of the input model, thus modifying behavior in other components.
 
                 if (model == null) {
                     status += "ERROR: The input model is null.";
@@ -174,10 +177,8 @@ namespace GhToSofistik {
 
                         // If there is not target element, apply the load to the whole structure
                         if (load.beamId == "") {
-                            foreach (Beam beam in beams) {
-                                    current.beam = beam;
-                                    loads.Add(current);
-                            }
+                            current.beam_id = "";
+                            loads.Add(current);
                         }
                         else {
                             // We search the element
@@ -186,13 +187,6 @@ namespace GhToSofistik {
                             });
                             loads.Add(current);
                         }
-                    }
-
-                    // Karamba duplicates line loads if beam id is not defined
-                    for (int i = 0; i < loads.Count; i++) {
-                        loads.RemoveAll(delegate(Load test_load) {
-                            return test_load != loads[i] && loads[i].duplicate(test_load);
-                        });
                     }
 
                     status += model.eloads.Count + " line loads added.\n";
@@ -219,7 +213,7 @@ namespace GhToSofistik {
                     status += "Matching with material IDs...\n";
                     
                     foreach (CrossSection crosec in crossSections) {
-                        //If the IDs list is empty, it means that we want to apply the cross section to the whole structure (which is the default behavior: the default cross section is set by the constructors of all elements)
+                        // If the IDs list is empty, it means that we want to apply the cross section to the whole structure (which is the default behavior: the default cross section is set by the constructors of all elements)
                         bool test = false;
                         foreach (string id in crosec.ids) {
                             if (id != "")
