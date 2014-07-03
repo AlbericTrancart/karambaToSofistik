@@ -3,6 +3,15 @@ GhToSofistik
 
 A Grasshopper plugin which takes a Karamba Model and converts it to a .dat file readable by Sofistik.
 
+Features
+--------
+
+- Takes as input a Karamba model and outputs a .dat file into CADINPUT language;
+- Converts beams, materials, cross sections and loads;
+- Covered cross sections types: box profile, circular, I profile, trapezoidal;
+- Covered load types: line-load, point load, gravity, pretension, temperature load;
+- Takes Grasshopper's ID system into account.
+
 Installation
 ------------
 To install the plugin follow these steps :
@@ -18,7 +27,7 @@ To install the plugin follow these steps :
 Usage
 -----
 
-This component is very simple to use. You can find it in the Karamba tab in the section "Extra". You have to plug in an input model, that's all !
+This component is very simple to use. You can find it in the Karamba tab in the section "Extra". You have to plug in an input model, that's all!
 
 You will get the data with "Output".
 The "Status" output is for debugging purposes.
@@ -33,7 +42,6 @@ Optionnaly, you can set a input path: **the .dat file will be automatically save
 
 *A simple use of this component*
 
-**THE SUPPORT FOR SHELLS IS NOT YET ADDED**
 
 
 Building it from source
@@ -64,6 +72,6 @@ You will need **Microsoft Visual Studio** with the [Grasshopper Assembly][3] (yo
 
 
   [1]: https://github.com/AlbericTrancart/GhToSofistik/blob/master/Bin/GhToSofistik.gha?raw=true
-  [2]: http://image.noelshack.com/fichiers/2014/22/1401091484-capture.png "Usage demonstration"
+  [2]: http://image.noelshack.com/fichiers/2014/27/1404381095-capture-2.png "Usage demonstration"
   [3]: http://visualstudiogallery.msdn.microsoft.com/9e389515-0719-47b4-a466-04436b491cd6 "Grasshopper Assembly"
   [4]: https://github.com/AlbericTrancart/GhToSofistik/archive/master.zip
