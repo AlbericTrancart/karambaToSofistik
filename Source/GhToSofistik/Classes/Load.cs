@@ -48,7 +48,7 @@ namespace GhToSofistik.Classes {
 
         public void hydrate(Karamba.Loads.PreTensionLoad load) {
             beam_id = load.beamId;
-            coef = Math.Round(load.EPS0 * 1000, 3);
+            coef = Math.Round(load.EPS0, 3);
         }
 
         public void hydrate(Karamba.Loads.TemperatureLoad load) {
