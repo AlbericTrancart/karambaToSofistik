@@ -1,4 +1,4 @@
-GhToSofistik
+karambaToSofistik
 ============
 
 A Grasshopper plugin which takes a Karamba Model and converts it to a .dat file readable by Sofistik.
@@ -51,7 +51,7 @@ As an alternative you can build this plugin from the source and tweak the code i
 You will need **Microsoft Visual Studio** with the [Grasshopper Assembly][3] (you can download it directly from Visual Studio in *"Tools > Extensions and updates..."*).
 
 - Either [download the source zip][4] or fork the repo.
-- Open the *Source/GhToSofistik.sln* project file with Visual Studio.
+- Open the *Source/karambaToSofistik.sln* project file with Visual Studio.
 - In the project tree **check that all the references are available**. If not, fix them (the required libraries can be found in the *Source/Libraries/* directory).
 - Build the solution **(Ctrl+Shift+B)**. You should get the GHA file in the *Source/bin* folder.
 
@@ -62,7 +62,7 @@ You will need **Microsoft Visual Studio** with the [Grasshopper Assembly][3] (yo
 > Replace these lines:
 > 
 > `Copy "$(TargetDir)$(ProjectName).gha" "C:\Users\alberic\AppData\Roaming\Grasshopper\Libraries"`
-> `Copy "$(TargetDir)$(ProjectName).gha" "E:\GhToSofistik\Bin"`
+> `Copy "$(TargetDir)$(ProjectName).gha" "E:\karambaToSofistik\Bin"`
 > 
 > With this one:
 > 
@@ -71,7 +71,7 @@ You will need **Microsoft Visual Studio** with the [Grasshopper Assembly][3] (yo
 > With this setup, it will not have to copy again and again the GHA file with every build.
 
 
-  [1]: https://github.com/AlbericTrancart/GhToSofistik/blob/master/Bin/GhToSofistik.gha?raw=true
+  [1]: https://github.com/AlbericTrancart/karambaToSofistik/blob/master/Bin/karambaToSofistik.gha?raw=true
   [2]: http://image.noelshack.com/fichiers/2014/27/1404381095-capture-2.png "Usage demonstration"
   [3]: http://visualstudiogallery.msdn.microsoft.com/9e389515-0719-47b4-a466-04436b491cd6 "Grasshopper Assembly"
-  [4]: https://github.com/AlbericTrancart/GhToSofistik/archive/master.zip
+  [4]: https://github.com/AlbericTrancart/karambaToSofistik/archive/master.zip
