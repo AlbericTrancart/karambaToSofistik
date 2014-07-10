@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace karambaToSofistik.Classes {
     class Node {
@@ -35,7 +36,8 @@ namespace karambaToSofistik.Classes {
                 sofi += " FIX ";
 
                 foreach (string condition in constraints) {
-                    sofi += condition;
+                    if (!Regex.IsMatch(sofi, condition, RegexOptions.IgnoreCase))
+                        sofi += condition;
                 }
             }
 
