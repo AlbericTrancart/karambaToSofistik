@@ -7,11 +7,11 @@ using Rhino.PlugIns;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GhToSofistik")]
-[assembly: AssemblyDescription("Convert a Karamba Model to a readable .dat file for Sofistik.")]
+[assembly: AssemblyTitle("karambaToSofistik")]
+[assembly: AssemblyDescription("Converts a Karamba Model to a readable .dat file for Sofistik.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("UPM")]
-[assembly: AssemblyProduct("GhToSofistik")]
+[assembly: AssemblyProduct("karambaToSofistik")]
 [assembly: AssemblyCopyright("Copyright © 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

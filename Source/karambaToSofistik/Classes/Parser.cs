@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GhToSofistik.Classes {
+namespace karambaToSofistik.Classes {
     class Parser {
         static public int id_count = 1; // Karamba does not provide IDs for loads so we must create one
         public string file { get; protected set; }
@@ -37,8 +37,8 @@ namespace GhToSofistik.Classes {
             int iterator = 0;
             Beam last_beam = new Beam();
 
-            foreach (string group in GhToSofistikComponent.beam_groups) {
-                file += "\nGRP " + GhToSofistikComponent.beam_groups.IndexOf(group) + ";\n";
+            foreach (string group in karambaToSofistikComponent.beam_groups) {
+                file += "\nGRP " + karambaToSofistikComponent.beam_groups.IndexOf(group) + ";\n";
                 iterator = 0;
 
                 foreach (Beam beam in beams) {
@@ -52,17 +52,18 @@ namespace GhToSofistik.Classes {
                             node_end = beam.end.id;
                             crosec = beam.sec.id;
                             iterator = 1;
+                            last_beam = beam;
                             continue;
                         }
                         
                         // Check if we are moving into another cluster
-                        if(beam.id != cluster_start + iterator
+                        if (beam.id != cluster_start + iterator
                             || beam.start.id != node_start + iterator
                             || beam.end.id != node_end + iterator
                             || beam.sec.id != crosec) {
 
                             // End the cluster and print it
-                            if(iterator == 1){
+                            if (iterator == 1) {
                                 // Normal beam
                                 file += last_beam.sofistring() + "\n";
                             }
@@ -73,19 +74,20 @@ namespace GhToSofistik.Classes {
                                       + " NE (" + node_end + " 1)"
                                       + " NCS " + crosec + "\n";
                             }
-                            
+
                             // Start a new cluster
                             cluster_start = beam.id;
                             node_start = beam.start.id;
                             node_end = beam.end.id;
                             crosec = beam.sec.id;
                             iterator = 1;
+                            last_beam = beam;
                             continue;
                         }
                         else {
                             iterator++;
+                            last_beam = beam;
                         }
-                        last_beam = beam;
                     }
                 }
 

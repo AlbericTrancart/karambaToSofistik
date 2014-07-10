@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GhToSofistik.Classes {
+namespace karambaToSofistik.Classes {
     class CrossSection {
         public int id;
         public List<string> ids; // Elements to apply to

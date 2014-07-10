@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Rhino.Geometry;
 
-namespace GhToSofistik.Classes {
+namespace karambaToSofistik.Classes {
     class Load {
         public int id;
         public Beam beam;               // Element to apply to for element load
@@ -79,7 +79,7 @@ namespace GhToSofistik.Classes {
                     if (beam_id == "")
                         from = "1 TO 999999";
                     else
-                        from = "GRP " + GhToSofistikComponent.beam_groups.IndexOf(beam_id);
+                        from = "GRP " + karambaToSofistikComponent.beam_groups.IndexOf(beam_id);
 
                     if (type == "E") {
                         string load_type = "";

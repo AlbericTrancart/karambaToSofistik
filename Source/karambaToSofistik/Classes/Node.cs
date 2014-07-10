@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GhToSofistik.Classes {
+namespace karambaToSofistik.Classes {
     class Node {
         public int id;
         public double x, y, z;

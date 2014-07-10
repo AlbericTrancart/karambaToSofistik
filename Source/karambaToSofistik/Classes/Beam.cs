@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 
-namespace GhToSofistik.Classes {
+namespace karambaToSofistik.Classes {
     class Beam {
         public int id;
         public string user_id;
@@ -31,8 +31,8 @@ namespace GhToSofistik.Classes {
             ids = beam._node_inds;
             user_id = beam.id;
 
-            if(!GhToSofistikComponent.beam_groups.Contains(beam.id))
-                GhToSofistikComponent.beam_groups.Add(beam.id);
+            if (!karambaToSofistikComponent.beam_groups.Contains(beam.id))
+                karambaToSofistikComponent.beam_groups.Add(beam.id);
             
             color = beam.color;
         }

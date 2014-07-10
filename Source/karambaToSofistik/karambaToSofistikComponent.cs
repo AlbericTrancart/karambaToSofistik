@@ -1,6 +1,6 @@
-﻿// GrassHopper To Sofistik component for GrassHopper
+﻿// Karamba To Sofistik component for GrassHopper
 // Convert a karamba model to a .dat file readable by Sofistik
-// Git: https://github.com/AlbericTrancart/GhToSofistik
+// Git: https://github.com/AlbericTrancart/karambaToSofistik
 // Contact: alberic.trancart@eleves.enpc.fr
 
 using System;
@@ -13,12 +13,12 @@ using Rhino.Geometry;
 using Karamba.Models;
 using Karamba.Elements;
 
-using GhToSofistik.Classes;
+using karambaToSofistik.Classes;
 
-namespace GhToSofistik {
-    public class GhToSofistikComponent : GH_Component {
+namespace karambaToSofistik {
+    public class karambaToSofistikComponent : GH_Component {
         // Component configuration
-        public GhToSofistikComponent() : base("GhToSofistik", "GtS", "Convert Karamba model to a .dat file readable by Sofistik", "Karamba", "Extra") {}
+        public karambaToSofistikComponent() : base("karambaToSofistik", "ktS", "Converts a Karamba model to a .dat file readable by Sofistik", "Karamba", "Extra") { }
 
         // Registers all the input parameters for this component.
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager) {

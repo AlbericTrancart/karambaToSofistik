@@ -8,8 +8,8 @@
     <ProjectGuid>{40482D48-1CEA-4D7F-A68A-3BF7C27C9B39}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GhToSofistik</RootNamespace>
-    <AssemblyName>GhToSofistik</AssemblyName>
+    <RootNamespace>karambaToSofistik</RootNamespace>
+    <AssemblyName>karambaToSofistik</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -64,8 +64,8 @@
     <Compile Include="Classes\Material.cs" />
     <Compile Include="Classes\Node.cs" />
     <Compile Include="Classes\Parser.cs" />
-    <Compile Include="GhToSofistikComponent.cs" />
-    <Compile Include="GhToSofistikInfo.cs" />
+    <Compile Include="karambaToSofistikComponent.cs" />
+    <Compile Include="karambaToSofistikInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -94,7 +94,7 @@
     <PostBuildEvent>Copy "$(TargetPath)" "$(TargetDir)$(ProjectName).gha"
 Erase "$(TargetPath)"
 Copy "$(TargetDir)$(ProjectName).gha" "C:\Users\alberic\AppData\Roaming\Grasshopper\Libraries"
-Copy "$(TargetDir)$(ProjectName).gha" "E:\GhToSofistik\Bin"</PostBuildEvent>
+Copy "$(TargetDir)$(ProjectName).gha" "E:\karambaToSofistik\Bin"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <FallbackCulture>en-US</FallbackCulture>
