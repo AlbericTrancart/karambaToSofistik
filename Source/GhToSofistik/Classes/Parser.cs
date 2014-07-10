@@ -25,7 +25,7 @@ namespace GhToSofistik.Classes {
             }
 
             // SOFIMSHA definitions
-            file += "\nEND\n\n\n+PROG SOFIMSHA urs:2\nHEAD Elements\nUNIT 5\nSYST 3D GDIR NEGZ GDIV 1000\n\n";
+            file += "\nEND\n\n\n+PROG SOFIMSHA urs:2\nHEAD Elements\nUNIT 5\nSYST GDIR NEGZ GDIV 1000\n\n";
 
             foreach (Node node in nodes) {
                 file += node.sofistring() + "\n";
