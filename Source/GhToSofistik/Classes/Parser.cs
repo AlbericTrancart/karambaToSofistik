@@ -39,6 +39,8 @@ namespace GhToSofistik.Classes {
 
             foreach (string group in GhToSofistikComponent.beam_groups) {
                 file += "\nGRP " + GhToSofistikComponent.beam_groups.IndexOf(group) + ";\n";
+                iterator = 0;
+
                 foreach (Beam beam in beams) {
                     // Output one group after the other
                     if (beam.user_id == group) {
