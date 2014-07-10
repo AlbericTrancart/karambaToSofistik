@@ -44,9 +44,7 @@ namespace GhToSofistik.Classes {
                 foreach (Beam beam in beams) {
                     // Output one group after the other
                     if (beam.user_id == group) {
-                        // Beams are automatically ordered by their ID, therefore it is simple to clear the syntax by defining them in clusters
-
-                        last_beam = beam;
+                        // Beams are automatically ordered by their ID, therefore it is simple to clear the syntax by defining them in cluster
                         if (iterator == 0) {
                             // Start a new cluster
                             cluster_start = beam.id;
@@ -66,7 +64,7 @@ namespace GhToSofistik.Classes {
                             // End the cluster and print it
                             if(iterator == 1){
                                 // Normal beam
-                                file += beam.sofistring() + "\n";
+                                file += last_beam.sofistring() + "\n";
                             }
                             else {
                                 // Clusterized definition
@@ -87,6 +85,7 @@ namespace GhToSofistik.Classes {
                         else {
                             iterator++;
                         }
+                        last_beam = beam;
                     }
                 }
 
