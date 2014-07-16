@@ -43,6 +43,10 @@ namespace karambaToSofistik.Classes {
                     iterator = 0;
 
                     foreach (Beam beam in beams) {
+                        //Initiate first beam
+                        if (last_beam == new Beam())
+                            last_beam = beam;
+
                         // Output one group after the other
                         if (beam.user_id == group) {
                             // Beams are automatically ordered by their ID, therefore it is simple to clear the syntax by defining them in cluster
