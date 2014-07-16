@@ -38,70 +38,72 @@ namespace karambaToSofistik.Classes {
             Beam last_beam = new Beam();
 
             foreach (string group in karambaToSofistikComponent.beam_groups) {
-                file += "\nGRP " + karambaToSofistikComponent.beam_groups.IndexOf(group) + ";\n";
-                iterator = 0;
+                if (karambaToSofistikComponent.beam_groups.Count > 0) {
+                    file += "\nGRP " + karambaToSofistikComponent.beam_groups.IndexOf(group) + ";\n";
+                    iterator = 0;
 
-                foreach (Beam beam in beams) {
-                    // Output one group after the other
-                    if (beam.user_id == group) {
-                        // Beams are automatically ordered by their ID, therefore it is simple to clear the syntax by defining them in cluster
-                        if (iterator == 0) {
-                            // Start a new cluster
-                            cluster_start = beam.id;
-                            node_start = beam.start.id;
-                            node_end = beam.end.id;
-                            crosec = beam.sec.id;
-                            iterator = 1;
-                            last_beam = beam;
-                            continue;
-                        }
-                        
-                        // Check if we are moving into another cluster
-                        if (beam.id != cluster_start + iterator
-                            || beam.start.id != node_start + iterator
-                            || beam.end.id != node_end + iterator
-                            || beam.sec.id != crosec) {
+                    foreach (Beam beam in beams) {
+                        // Output one group after the other
+                        if (beam.user_id == group) {
+                            // Beams are automatically ordered by their ID, therefore it is simple to clear the syntax by defining them in cluster
+                            if (iterator == 0) {
+                                // Start a new cluster
+                                cluster_start = beam.id;
+                                node_start = beam.start.id;
+                                node_end = beam.end.id;
+                                crosec = beam.sec.id;
+                                iterator = 1;
+                                last_beam = beam;
+                                continue;
+                            }
 
-                            // End the cluster and print it
-                            if (iterator == 1) {
-                                // Normal beam
-                                file += last_beam.sofistring() + "\n";
+                            // Check if we are moving into another cluster
+                            if (beam.id != cluster_start + iterator
+                                || beam.start.id != node_start + iterator
+                                || beam.end.id != node_end + iterator
+                                || beam.sec.id != crosec) {
+
+                                // End the cluster and print it
+                                if (iterator == 1) {
+                                    // Normal beam
+                                    file += last_beam.sofistring() + "\n";
+                                }
+                                else {
+                                    // Clusterized definition
+                                    file += "BEAM NO (" + cluster_start + " " + (cluster_start + iterator - 1) + " 1)"
+                                          + " NA (" + node_start + " 1)"
+                                          + " NE (" + node_end + " 1)"
+                                          + " NCS " + crosec + "\n";
+                                }
+
+                                // Start a new cluster
+                                cluster_start = beam.id;
+                                node_start = beam.start.id;
+                                node_end = beam.end.id;
+                                crosec = beam.sec.id;
+                                iterator = 1;
+                                last_beam = beam;
+                                continue;
                             }
                             else {
-                                // Clusterized definition
-                                file += "BEAM NO (" + cluster_start + " " + (cluster_start + iterator - 1) + " 1)"
-                                      + " NA (" + node_start + " 1)"
-                                      + " NE (" + node_end + " 1)"
-                                      + " NCS " + crosec + "\n";
+                                iterator++;
+                                last_beam = beam;
                             }
-
-                            // Start a new cluster
-                            cluster_start = beam.id;
-                            node_start = beam.start.id;
-                            node_end = beam.end.id;
-                            crosec = beam.sec.id;
-                            iterator = 1;
-                            last_beam = beam;
-                            continue;
-                        }
-                        else {
-                            iterator++;
-                            last_beam = beam;
                         }
                     }
-                }
 
-                // Print the last cluster
-                if (iterator == 1) {
-                    // Normal beam
-                    file += last_beam.sofistring() + "\n";
-                }
-                else {
-                    // Clusterized definition
-                    file += "BEAM NO (" + cluster_start + " " + (cluster_start + iterator - 1) + " 1)"
-                          + " NA (" + node_start + " 1)"
-                          + " NE (" + node_end + " 1)"
-                          + " NCS " + crosec + "\n";
+                    // Print the last cluster
+                    if (iterator == 1) {
+                        // Normal beam
+                        file += last_beam.sofistring() + "\n";
+                    }
+                    else {
+                        // Clusterized definition
+                        file += "BEAM NO (" + cluster_start + " " + (cluster_start + iterator - 1) + " 1)"
+                              + " NA (" + node_start + " 1)"
+                              + " NE (" + node_end + " 1)"
+                              + " NCS " + crosec + "\n";
+                    }
                 }
             }
 
